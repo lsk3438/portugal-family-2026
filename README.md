@@ -24,25 +24,67 @@ Fonctionne hors connexion pour l'interface une fois la page chargée ; les photo
 - **Ambiance sonore** : synthétisée dans le navigateur avec l'API Web Audio — ressac de l'Atlantique (bruit brun filtré, amplitude respirante) et corde pincée en mi phrygien. Aucun fichier audio, aucune question de droits. Le son ne démarre jamais seul : le bouton flottant pulse trois fois puis se tait.
 - **Micro-interactions** : élévation et bordure teintée au survol (souris uniquement), enfoncement au doigt sur téléphone.
 
-## Les deux formes du site
+## Architecture
 
-`node build.mjs` produit deux choses à partir des mêmes sources :
+Le projet est découpé comme un vrai projet front : le contenu d'un côté, le code de l'autre, et jamais de fichier fourre-tout.
+
+```
+portugal-family-2026/
+├── index.html              ← la page, servie telle quelle par GitHub Pages
+├── manifest.json           ← installation sur l'écran d'accueil
+├── package.json            ← esbuild, uniquement pour le fichier unique
+├── build.mjs               ← replie le site en un seul fichier (public/)
+│
+├── data/                   ← TOUT LE CONTENU DU VOYAGE, zéro logique
+│   ├── trip.js             ← métadonnées + recomposition de l'objet TRIP
+│   ├── legs.js             ← les trois étapes et leurs couleurs
+│   ├── days.js             ← les douze journées
+│   ├── places.js           ← les 51 lieux (adresses, tél., horaires, tarifs)
+│   ├── bookings.js         ← les réservations
+│   ├── infos.js            ← infos pratiques + « à confirmer »
+│   └── images.js           ← URLs des photos Wikimedia
+│
+└── assets/
+    ├── icon.svg
+    ├── css/
+    │   ├── tokens.css      ← couleurs, espacements, ombres, typographies
+    │   ├── base.css        ← remise à zéro, typographie, fond azulejo
+    │   ├── layout.css      ← en-tête, onglets, vues, sections
+    │   ├── components.css  ← cartes, fiches, listes, bandeaux
+    │   ├── ambience.css    ← bouton d'ambiance sonore
+    │   ├── responsive.css  ← élargissement tablette et bureau
+    │   └── interactions.css← survol, pression, animations réduites, impression
+    └── js/
+        ├── main.js         ← point d'entrée : 20 lignes
+        ├── core/           ← dom · icons · store · toast · helpers · router · events
+        ├── features/       ← countdown · weather · ambience · reveal
+        └── views/          ← home · programme · day · map · bookings · infos
+```
+
+**Modules ES natifs.** Chaque fichier déclare ce dont il a besoin avec `import` et ce qu'il offre avec `export`. Aucun ordre de balises `<script>` à respecter, aucune variable globale, aucune étape de compilation pour mettre le site en ligne : le navigateur résout les dépendances tout seul.
+
+**Réutiliser le site pour un autre voyage** revient à remplacer le contenu de `data/`. Le reste ne bouge pas.
+
+**Ajouter un jour 13** revient à ajouter un objet dans `data/days.js`. Aucune page à créer : les journées, les filtres, la carte, le compte à rebours et le pager se recalculent à partir des données.
+
+## Les deux formes du site
 
 | Fichier | À quoi il sert |
 |---|---|
-| `index.html` (racine, 9 Ko) | Page légère qui charge `src/style.css`, `src/images.js`, `src/trip.js`, `src/app.js`. **C'est cette version que sert GitHub Pages.** Elle a besoin d'être servie en HTTP, pas ouverte depuis le disque. |
-| `public/index.html` (174 Ko) | Le site entier en un seul fichier, tout en ligne. À envoyer par message, à ouvrir directement depuis le téléphone, ou à déployer sur Vercel. |
+| `index.html` + `assets/` + `data/` | Le site tel qu'il est servi en ligne. Modules ES : il lui faut un serveur HTTP, il ne s'ouvre pas depuis le disque. |
+| `public/index.html` (187 Ko) | Le site entier replié dans un seul fichier par `node build.mjs`. À envoyer par message, à ouvrir hors connexion, ou à déployer sur Vercel. |
 
-Pour tester la version éclatée en local :
+Pour travailler en local :
 
 ```bash
-python3 -m http.server 8000
-# puis ouvrir http://localhost:8000
+npm install        # une seule fois, pour esbuild
+npm run dev        # sert le dossier sur http://localhost:8000
+npm run build      # régénère public/index.html
 ```
 
 ## Mise en ligne — GitHub Pages
 
-Pas de GitHub Actions, pas de build à distance : le dépôt contient déjà `index.html` et les fichiers `src/` qu'il charge, GitHub les sert tels quels.
+Pas de GitHub Actions, pas de build à distance : le dépôt contient déjà `index.html` et les fichiers de `assets/` et `data/` qu'il charge, GitHub les sert tels quels.
 
 **Réglage à faire une seule fois**
 
@@ -52,7 +94,7 @@ Pas de GitHub Actions, pas de build à distance : le dépôt contient déjà `in
 
 Adresse finale : `https://lsk3438.github.io/portugal-family-2026/`
 
-Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule. Après avoir touché à `src/trip.js`, relancer `node build.mjs` avant de pousser — c'est lui qui régénère `src/images.js` et l'`index.html` de la racine.
+Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule.
 
 Le fichier `.nojekyll` désactive le préprocesseur Jekyll de GitHub, qui n'a rien à faire ici.
 
@@ -62,27 +104,22 @@ Le fichier `vercel.json` est conservé au cas où. Il permet d'héberger le site
 
 ## Modifier le contenu
 
-**Tout le contenu du voyage tient dans un seul fichier : `src/trip.js`.**
+**Tout le contenu du voyage tient dans le dossier `data/`, et nulle part ailleurs.**
 
 Horaires, textes, lieux, adresses, téléphones, liens, réservations, infos pratiques : tout est là, et rien de tout cela ne se trouve dans les composants.
 
-```bash
-# après n'importe quelle modification
-node build.mjs
-```
+Rien à recompiler pour mettre le site en ligne : GitHub Pages sert `data/` directement. `node build.mjs` ne sert qu'à régénérer la version « fichier unique ».
 
-`build.mjs` régénère `index.html`, `src/images.js` et `public/index.html`. `build.py` fait la même chose en Python pour qui n'a pas Node, mais ne produit que `public/index.html` — il ne suffit pas pour mettre à jour GitHub Pages.
-
-### Conventions du fichier de données
+### Conventions des fichiers de données
 
 - `ok: true` — information vérifiée sur une source officielle, affichée telle quelle.
 - `ok: false` — information non vérifiée : le site affiche **À confirmer** en doré.
-- `place: 'clé'` — renvoie à une entrée de `TRIP.places`, qui fournit photo, adresse, téléphone, horaires, tarifs et liens.
+- `place: 'clé'` — renvoie à une entrée de `data/places.js`, qui fournit photo, adresse, téléphone, horaires, tarifs et liens.
 - `warn: '…'` — encadré d'avertissement affiché sous la fiche du lieu.
 
 ### Changer un horaire
 
-Dans `TRIP.days`, chaque journée contient une liste `items` :
+Dans `data/days.js`, chaque journée contient une liste `items` :
 
 ```js
 { t: '10h30', k: 'route', title: 'Départ pour Loulé', text: "…", place: 'loule', todo: 'À réserver' }
@@ -93,33 +130,16 @@ Dans `TRIP.days`, chaque journée contient une liste `items` :
 
 ### Ajouter un lieu
 
-Ajouter une entrée dans `TRIP.places`, puis y faire référence depuis une journée avec `place: 'maCle'`.
-Pour la photo, ajouter une entrée dans `src/images.json` avec une URL Wikimedia Commons (`card` et `hero`), puis indiquer `img: 'maCle'`.
-
-## Structure
-
-```
-├── index.html              ← page servie par GitHub Pages (générée)
-├── .nojekyll               ← désactive Jekyll côté GitHub
-├── build.mjs               ← génère index.html, src/images.js et public/index.html
-├── build.py                ← équivalent Python, ne génère que public/index.html
-├── vercel.json             ← config de secours pour un hébergement Vercel
-└── src/
-    ├── trip.js             ← TOUTES les données du voyage
-    ├── app.js              ← logique : routeur, compte à rebours, carte, favoris
-    ├── style.css           ← direction artistique
-    ├── index.template.html ← structure de la page
-    ├── images.json         ← URLs des photos Wikimedia
-    └── images.js           ← images.json enveloppé pour le navigateur (généré)
-```
+Ajouter une entrée dans `data/places.js`, puis y faire référence depuis une journée avec `place: 'maCle'`.
+Pour la photo, ajouter une entrée dans `data/images.js` avec une URL Wikimedia Commons (`card` et `hero`), puis indiquer `img: 'maCle'`.
 
 ## Confidentialité
 
 La page porte une balise `noindex, nofollow` : elle ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — favoris, listes du jour et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
 
-**Ce dépôt est public**, condition imposée par GitHub Pages sur le plan gratuit. Concrètement, tout le contenu de `src/trip.js` est lisible par n'importe qui sur github.com. Aujourd'hui ce fichier ne contient rien de personnel : les adresses des logements sont en « À confirmer » et les numéros de téléphone sont ceux de restaurants et de monuments, tous publics.
+**Ce dépôt est public**, condition imposée par GitHub Pages sur le plan gratuit. Concrètement, tout le contenu de `data/` est lisible par n'importe qui sur github.com. Aujourd'hui ce fichier ne contient rien de personnel : les adresses des logements sont en « À confirmer » et les numéros de téléphone sont ceux de restaurants et de monuments, tous publics.
 
-À ne donc **pas** écrire dans `src/trip.js` tant que le dépôt est public :
+À ne donc **pas** écrire dans `data/` tant que le dépôt est public :
 
 - l'adresse exacte des logements, associée aux dates d'absence ;
 - les numéros de téléphone personnels des participants ;
