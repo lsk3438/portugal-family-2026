@@ -55,8 +55,10 @@
   <!-- ============================ ACCUEIL ============================ -->
   <section class="view" id="v-accueil" aria-labelledby="h-accueil">
     <div class="hero">
-      <img class="hero__img" id="home-img" alt="" fetchpriority="high" width="1920" height="1080" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'%3E%3C/svg%3E">
+      <div class="hero__reel" id="home-reel" aria-hidden="true"></div>
       <div class="hero__veil"></div>
+      <div class="hero__dots" id="home-dots" aria-hidden="true"></div>
+      <p class="hero__credit" id="home-credit" aria-hidden="true"></p>
       <div class="hero__in">
         <p class="hero__eyebrow" id="home-eyebrow"></p>
         <h1 class="hero__title" id="h-accueil">Portugal Family <i>Trip</i></h1>
@@ -166,18 +168,24 @@
       <h1 class="h-lg" id="h-infos">Infos</h1>
       <div id="infos-list" style="margin-top:24px"></div>
 
+      <h2 class="sec__t" style="margin-top:48px">Les voyageurs</h2>
+      <div id="trav"></div>
+
       <h2 class="sec__t" style="margin-top:48px">À confirmer</h2>
       <div class="tcf" id="tcf"></div>
 
       <div class="foot">
         <p>Portugal Family Trip 2026 · carnet privé · 9 → 20 août</p>
-        <p>Photos : <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, licences libres. Carte : <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet</a> et <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
+        <p>Photos : <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, licences libres — crédits détaillés sous chaque image du bandeau d’accueil. Carte : <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet</a> et <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
+        <p>Musique : « Chiado », de <a href="https://archive.org/details/Paris_Lisboa-11367" target="_blank" rel="noopener noreferrer">Jahzzar</a>, album « Paris, Lisboa », sous licence <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>. Cette mention est exigée par la licence.</p>
         <p>Toutes les informations marquées « À confirmer » n’ont pas été vérifiées sur une source officielle.</p>
       </div>
     </div>
   </section>
 
 </main>
+
+<div class="dt" id="dt" hidden></div>
 
 <button class="amb" id="amb" type="button" aria-pressed="false" aria-label="Écouter l’ambiance sonore du voyage" hidden>
   <span class="amb__ico" aria-hidden="true"></span>
