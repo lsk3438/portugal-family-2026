@@ -221,28 +221,17 @@
 }
 .place__cui svg{ width:13px; height:13px; flex:none; }
 .place__d{ font-size:14px; color:var(--ink-2); margin:0; }
-.place__fav{
-  flex:none; width:44px; height:44px; border-radius:50%; border:1px solid var(--line); background:var(--white);
-  display:grid; place-items:center; color:var(--ink-3);
-  transition:background var(--t) var(--e), color var(--t) var(--e), transform 180ms var(--e), border-color var(--t) var(--e);
-}
-.place__fav svg{ width:19px; height:19px; }
-.place__fav:active{ transform:scale(.92); }
-.place__fav[aria-pressed="true"]{ background:var(--accent); border-color:var(--accent); color:#fff; }
-.place__fav[aria-pressed="true"] svg{ fill:currentColor; animation:pop 340ms var(--e-out); }
-@keyframes pop{ 0%{transform:scale(.7)} 55%{transform:scale(1.16)} 100%{transform:scale(1)} }
 /* Sur téléphone, la vignette de 74 px laissait moins de 120 px au texte : la
    photo passe en bandeau pleine largeur, ce qui la met en valeur et rend la
    description lisible. */
 @media (max-width:640px){
   .place__top{
     display:grid; grid-template-columns:minmax(0,1fr) auto;
-    grid-template-areas:"img img" "info fav";
+    grid-template-areas:"img img" "info info";
     gap:0; padding:0;
   }
   .place__img{ grid-area:img; width:100%; height:158px; border-radius:0; }
   .place__i{ grid-area:info; padding:var(--s4) 0 var(--s4) var(--s4); }
-  .place__fav{ grid-area:fav; margin:var(--s4) var(--s4) 0 var(--s2); }
   .place__n{ font-size:18px; }
 }
 .place__rows{ border-top:1px solid var(--line); }
@@ -418,3 +407,161 @@
   .facts{ grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); }
   .fact:nth-child(odd):last-child{ grid-column:auto; }
 }
+
+/* ==================================================  FICHE DÉTAILS
+   Panneau qui monte depuis le bas. Sur téléphone il occupe 94 % de la
+   hauteur : la photo et les informations doivent être réellement lisibles,
+   pas entassées dans une boîte de dialogue timide. */
+.dt{ position:fixed; inset:0; z-index:300; }
+.dt__scrim{
+  position:absolute; inset:0; background:rgba(12,16,20,.55);
+  backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+  opacity:0; transition:opacity 300ms var(--e);
+}
+.dt.on .dt__scrim{ opacity:1; }
+.dt__panel{
+  position:absolute; left:0; right:0; bottom:0; height:94dvh; max-height:94dvh;
+  display:flex; flex-direction:column;
+  background:var(--paper); border-radius:var(--r-xl) var(--r-xl) 0 0; overflow:hidden;
+  box-shadow:0 -20px 60px rgba(12,16,20,.35);
+  transform:translateY(100%); transition:transform 380ms var(--e-out);
+}
+.dt.on .dt__panel{ transform:none; }
+
+.dt__hero{ position:relative; flex:none; height:min(38dvh, 300px); background:var(--sand-2); }
+.dt__hero img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.dt__hero img.is-art{ object-fit:cover; }
+.dt__veil{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(9,14,20,.42) 0%, rgba(9,14,20,.10) 34%, rgba(9,14,20,.82) 100%);
+}
+.dt__x{
+  position:absolute; top:14px; right:14px; z-index:2;
+  width:40px; height:40px; border-radius:var(--r-p); border:0;
+  background:rgba(12,16,20,.5); color:#fff; display:grid; place-items:center;
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+}
+.dt__x svg{ width:18px; height:18px; }
+.dt__x:active{ transform:scale(.9); }
+.dt__head{ position:absolute; left:0; right:0; bottom:0; padding:var(--s5) var(--s5) var(--s4); color:#FDFBF7; }
+.dt__k{ font-size:10.5px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:rgba(253,251,247,.82); text-shadow:0 1px 10px rgba(9,14,20,.6); }
+.dt__t{ font-size:clamp(26px,6.4vw,38px); margin:5px 0 0; text-shadow:0 1px 18px rgba(9,14,20,.55); }
+.dt__cui{
+  display:inline-flex; align-items:center; gap:6px; margin-top:8px;
+  padding:3px 11px 3px 8px; border-radius:var(--r-p);
+  background:rgba(253,251,247,.16); color:#FDFBF7; font-size:12px; font-weight:600;
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+}
+.dt__cui svg{ width:13px; height:13px; }
+
+.dt__body{ flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:var(--s5) var(--s5) var(--s6); }
+.dt__desc{ font-size:16px; color:var(--ink-2); margin:0 0 var(--s4); }
+.dt__gal{
+  display:grid; grid-auto-flow:column; grid-auto-columns:64%; gap:var(--s2);
+  overflow-x:auto; scroll-snap-type:x mandatory; margin:0 0 var(--s4);
+  scrollbar-width:none;
+}
+.dt__gal::-webkit-scrollbar{ display:none; }
+.dt__gal img{ width:100%; aspect-ratio:4/3; object-fit:cover; border-radius:var(--r-m); scroll-snap-align:start; }
+.dt__when{
+  display:flex; align-items:center; gap:11px; text-decoration:none;
+  padding:11px var(--s4); margin-bottom:var(--s2);
+  border:1px solid var(--line); border-radius:var(--r-m); background:var(--white);
+}
+.dt__when svg{ width:18px; height:18px; flex:none; color:var(--dc, var(--accent)); }
+.dt__when span{ display:flex; flex-direction:column; font-size:13.5px; color:var(--ink-3); min-width:0; }
+.dt__when b{ font-size:14.5px; color:var(--ink); }
+.dt__rows{ border:1px solid var(--line); border-radius:var(--r-m); background:var(--white); margin-top:var(--s4); overflow:hidden; }
+.dt__row{ padding:11px var(--s4) 13px; border-bottom:1px solid var(--line); font-size:14.5px; }
+.dt__row:last-child{ border-bottom:0; }
+.dt__row b{ display:block; font-size:10.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); padding-bottom:3px; }
+.dt__row span{ color:var(--ink-2); }
+.dt__todo{
+  display:flex; gap:10px; align-items:flex-start; margin-top:var(--s4);
+  padding:12px var(--s4); border-radius:var(--r-m);
+  background:var(--sand); color:var(--ink-3); font-size:13px;
+}
+.dt__todo svg{ width:16px; height:16px; flex:none; margin-top:2px; }
+.dt__todo b{ color:var(--ink-2); }
+
+.dt__acts{
+  flex:none; display:flex; flex-wrap:wrap; gap:var(--s2);
+  padding:var(--s4) var(--s5) calc(var(--s4) + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line); background:var(--paper);
+}
+.btn--off{ opacity:.55; cursor:default; }
+
+body.is-locked{ overflow:hidden; }
+
+@media (min-width:760px){
+  .dt__panel{
+    left:50%; bottom:50%; transform:translate(-50%, 50%) scale(.96);
+    width:min(720px, 92vw); height:min(86dvh, 860px); border-radius:var(--r-xl);
+    opacity:0; transition:transform 380ms var(--e-out), opacity 300ms var(--e);
+  }
+  .dt.on .dt__panel{ transform:translate(-50%, 50%) scale(1); opacity:1; }
+}
+@media (prefers-reduced-motion:reduce){
+  .dt__panel, .dt__scrim{ transition:none; }
+}
+
+/* ==================================================  BANDEAU D'OUVERTURE
+   Douze médias en fondu lent. Chaque image dérive très légèrement pendant
+   ses sept secondes à l'écran : le mouvement se remarque à peine, mais son
+   absence rendrait le bandeau figé. */
+.hero__reel{ position:absolute; inset:0; z-index:-2; overflow:hidden; background:var(--atlantic-d); }
+.hero__slide{ position:absolute; inset:0; opacity:0; transition:opacity 1600ms var(--e); }
+.hero__slide.on{ opacity:1; }
+.hero__slide img, .hero__slide video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  transform:scale(1.04);
+}
+.hero__slide.on img, .hero__slide.on video{
+  animation:heroDrift 9000ms linear forwards;
+}
+@keyframes heroDrift{ from{ transform:scale(1.04) translate3d(0,0,0); } to{ transform:scale(1.10) translate3d(-1.2%,-0.8%,0); } }
+
+.hero__dots{
+  position:absolute; left:0; right:0; bottom:14px; z-index:2;
+  display:flex; justify-content:center; gap:5px; padding:0 var(--s4);
+}
+.hero__dots i{
+  width:16px; height:3px; border-radius:2px; background:rgba(253,251,247,.34);
+  transition:background 500ms var(--e), width 500ms var(--e);
+}
+.hero__dots i.on{ background:rgba(253,251,247,.92); width:26px; }
+.hero__credit{
+  position:absolute; right:14px; bottom:26px; z-index:2; margin:0; max-width:60%;
+  font-size:10px; letter-spacing:.04em; text-align:right; color:rgba(253,251,247,.62);
+  text-shadow:0 1px 8px rgba(9,14,20,.7);
+}
+@media (max-width:560px){ .hero__credit{ display:none; } }
+@media (prefers-reduced-motion:reduce){
+  .hero__slide{ transition:none; }
+  .hero__slide.on img, .hero__slide.on video{ animation:none; transform:scale(1.04); }
+}
+
+/* ==================================================  LES VOYAGEURS */
+.trav__n{
+  font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 var(--s3); transition:color 700ms var(--e);
+}
+.trav{ list-style:none; margin:0; padding:0; display:grid; gap:var(--s2); }
+.trav__p{
+  display:flex; align-items:center; gap:var(--s3);
+  padding:10px var(--s4); border:1px solid var(--line); border-radius:var(--r-m);
+  background:var(--white);
+}
+.trav__i, .trav__p img{
+  flex:none; width:42px; height:42px; border-radius:var(--r-p); object-fit:cover;
+}
+.trav__i{
+  display:grid; place-items:center;
+  background:color-mix(in srgb, var(--accent) 14%, transparent); color:var(--accent-d);
+  font-size:14px; font-weight:700; letter-spacing:.02em;
+  transition:background-color 700ms var(--e), color 700ms var(--e);
+}
+.trav__b{ display:flex; flex-direction:column; min-width:0; }
+.trav__b b{ font-size:15px; font-weight:600; }
+.trav__b small{ font-size:12.5px; color:var(--ink-3); }
+@media (min-width:640px){ .trav{ grid-template-columns:1fr 1fr; } }
