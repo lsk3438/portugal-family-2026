@@ -1,0 +1,44 @@
+/* ======================================================================
+   INTERACTIONS — élévation et bordure teintée à la souris, enfoncement au
+   doigt, respect de « réduire les animations », et feuille d'impression.
+   ====================================================================== */
+
+/* ==================================================  MICRO-INTERACTIONS
+   Deux registres distincts. Au clavier et à la souris : l'élévation et la
+   bordure teintée. Au doigt : l'enfoncement — le survol n'existe pas sur
+   téléphone, et c'est là que le site sera surtout utilisé. */
+@media (hover:hover) and (pointer:fine){
+  .daycard:hover{ box-shadow:var(--sh-2), inset 0 0 0 1px var(--dc); }
+  .daycard:hover .daycard__img img{ transform:scale(1.06); }
+  .daycard__img img{ transition:transform 900ms var(--e-out); }
+  .next:hover{ box-shadow:var(--sh-3), inset 0 0 0 1px var(--accent); }
+  .legcard:hover{ box-shadow:var(--sh-2), 0 0 0 1px var(--lc); }
+  .bkcard:hover{ border-color:var(--accent); }
+  .fact:hover svg{ transform:scale(1.12); }
+  .fact svg{ transition:transform var(--t) var(--e-out), color 700ms var(--e); }
+}
+
+.next, .legcard, .daycard, .bkcard, .pager a, .place, .chip, .btn,
+.filters button, .tab, .amb, .check label{
+  -webkit-tap-highlight-color:transparent;
+}
+.next:active, .legcard:active, .daycard:active, .bkcard:active, .pager a:active{
+  transform:scale(.986); box-shadow:var(--sh-1);
+}
+.daycard:active{ border-color:var(--dc); }
+.legcard:active{ transform:scale(.986); }
+.btn:active, .filters button:active, .chip:active{ transform:scale(.94); }
+.tab:active{ transform:scale(.9); }
+.check label:active{ background:var(--sand); }
+.step__card:active{ border-color:var(--accent); }
+.btn, .filters button, .chip, .tab, .step__card{
+  transition:transform 160ms var(--e-out), background-color var(--t) var(--e), border-color var(--t) var(--e), color var(--t) var(--e);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+  .reveal{ opacity:1; transform:none; }
+  .next:active, .legcard:active, .daycard:active, .bkcard:active, .pager a:active,
+  .btn:active, .filters button:active, .chip:active, .tab:active{ transform:none; }
+}
+@media print{ .tabs,.top,.dbar{ display:none !important; } body{ background:#fff; padding:0; } body::after{ display:none; } }
