@@ -1,0 +1,34 @@
+/* ======================================================================
+   RESPONSIVE — le site est dessiné pour le téléphone ; ces règles
+   l'élargissent vers la tablette et le bureau.
+   ====================================================================== */
+
+@media (min-width: 820px){
+  body{ padding-bottom:0; }
+  .tabs{ position:static; border-top:0; border-bottom:1px solid var(--line); background:transparent; backdrop-filter:none; }
+  .tabs__in{ max-width:none; height:auto; justify-content:flex-start; gap:var(--s2); padding:0 0 var(--s2); }
+  .tab{ flex:0 0 auto; flex-direction:row; gap:8px; padding:9px 16px; border-radius:var(--r-p); font-size:14px; min-height:44px; }
+  .tab[aria-current="true"]{ background:var(--accent); color:#fff; }
+  .tab__dot{ display:none; }
+  .top{ position:sticky; }
+  .dbar{ top:calc(58px + env(safe-area-inset-top)); }
+  .toast{ bottom:24px; }
+  .info__r b{ width:200px; }
+}
+@media (max-width: 560px){
+  body{ font-size:16px; }
+  .hero__eyebrow{ letter-spacing:.14em; font-size:10.5px; }
+  .chip{ padding:5px 11px; font-size:10.5px; }
+  .dhero__chips{ gap:6px; }
+  .wrap{ width:calc(100% - 28px); }
+  .sec{ padding-block:var(--s6); }
+  .daycard{ grid-template-columns:96px minmax(0,1fr); }
+  .tl{ padding-left:48px; }
+  .tl__rail{ left:14px; }
+  .step__dot{ left:-48px; width:30px; height:30px; }
+  .step__card{ padding:var(--s3) var(--s4); }
+  .pager{ grid-template-columns:1fr; }
+  .place__row{ display:block; padding:10px var(--s4) 12px; }
+  .place__row b{ display:block; width:auto; font-size:10.5px; letter-spacing:.12em; padding:0 0 2px; }
+  #map{ height:62vh; }
+}
