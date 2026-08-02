@@ -7,7 +7,11 @@ Usage :
     python3 build.py
 
 Assemble src/index.template.html + src/style.css + src/trip.js + src/app.js
-+ src/images.json en un seul fichier autonome : index.html
++ src/images.json en un seul fichier autonome : public/index.html
+
+Équivalent Python de build.mjs, pour qui n'a pas Node. Attention : ce script
+ne régénère pas la version éclatée servie par GitHub Pages (index.html à la
+racine + src/images.js) — pour ça, il faut lancer « node build.mjs ».
 """
 import json
 import os
@@ -37,11 +41,12 @@ def main():
             .replace("/*__DATA__*/", data)
             .replace("/*__APP__*/", app))
 
-    out = os.path.join(ROOT, "index.html")
+    os.makedirs(os.path.join(ROOT, "public"), exist_ok=True)
+    out = os.path.join(ROOT, "public", "index.html")
     with open(out, "w", encoding="utf-8") as f:
         f.write(html)
 
-    print("  index.html généré — %.0f Ko" % (os.path.getsize(out) / 1024))
+    print("  public/index.html généré — %.0f Ko" % (os.path.getsize(out) / 1024))
     print("  %d journées · %d lieux · %d réservations · %d images"
           % (trip.count("      n: "), trip.count("      name: '") + trip.count('      name: "'),
              trip.count("{ name: '"), len(images)))
