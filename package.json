@@ -1,0 +1,15 @@
+{
+  "name": "portugal-family-2026",
+  "version": "1.0.0",
+  "description": "Carnet de voyage familial au Portugal, 9 au 20 août 2026 — Algarve, Lisbonne, Porto.",
+  "private": true,
+  "type": "module",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "build": "node build.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1"
+  }
+}
