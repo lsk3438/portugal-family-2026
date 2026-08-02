@@ -19,12 +19,12 @@ Fonctionne hors connexion pour l'interface une fois la page chargée ; les photo
 
 ## Direction artistique
 
-- **Une couleur par région**, appliquée aux bordures, badges, pastilles, boutons et éléments actifs : Algarve bleu Atlantique `#1A6698`, Lisbonne vert `#2F6B4A`, Porto bordeaux `#8E2B3F`. La bascule d'une région à l'autre est animée (`@property` sur `--accent`). Chaque teinte est vérifiée WCAG AA sur le fond papier (5.83 / 5.97 / 7.72).
-- **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité respirante entre 10 et 17 %, halo mouvant, parallaxe au défilement. Tout se coupe si le système demande moins d'animations.
+- **Une couleur par région**, appliquée aux bordures, badges, pastilles, boutons et éléments actifs : Algarve bleu Atlantique `#1A6698`, Lisbonne vert `#2F6B4A`, Porto bordeaux `#8E2B3F`. Les cartes d'étapes de l'accueil utilisent des variantes vives (`vivid` dans `data/legs.js`) : liseré de 3 px et badge plein. La bascule d'une région à l'autre est animée (`@property` sur `--accent`). Chaque teinte de texte est vérifiée WCAG AA sur le fond papier (5.83 / 5.97 / 7.72).
+- **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité respirante entre 17 et 30 %, halo mouvant, parallaxe au défilement. Tout se coupe si le système demande moins d'animations.
 - **Bandeau d'ouverture** : douze photographies libres de droits, quatre par région, en fondu de sept secondes. Seule la première part avec la page ; les suivantes sont préchargées une par une, et la couleur d'accent du site suit la région affichée.
 - **Ambiance sonore** : « Chiado » de Jahzzar, CC BY-SA 3.0, avec repli sur une ambiance synthétisée en Web Audio si le fichier ne se charge pas. Démarrage automatique tenté, puis au premier geste — les navigateurs mobiles refusent toujours le premier.
-- **Fiches Détails** : « Voir le récit » ouvre un panneau plein écran avec une grande photo, d'autres images du lieu et les moments du séjour où il revient — un complément, jamais un endroit où cacher une information. Adresse, horaires, tarifs, téléphone et liens restent affichés directement sur la fiche du jour, sans clic supplémentaire. Les rubriques non vérifiées ne sont pas inventées : elles sont listées dans « Reste à compléter ».
-- **Photos des restaurants** : dix restaurants sans site officiel ni photo Wikimedia utilisent une photo reprise de leur fiche Tripadvisor, à la demande explicite du foyer — ce ne sont pas des images sous licence libre, seulement les seules disponibles pour ces adresses ; le risque est assumé pour un usage privé, non indexé. Un onzième lieu (ALDI Quarteira) reste sans photo et reçoit une vignette dessinée.
+- **Fiches de lieux** : tout est visible directement sur la fiche du jour, sans clic — adresse, horaires, tarifs, téléphone, liens. Seules les rubriques **vérifiées** s'affichent : rien de « À confirmer » à l'écran, aucun encadré « Reste à compléter », aucun avertissement. Les valeurs non vérifiées restent dans `data/`, invisibles, et apparaissent dès qu'on passe leur champ à `ok: true`. La liste de ce qui reste à vérifier vit dans l'onglet Infos. Chaque étape du déroulé a un vrai descriptif : jamais une phrase « à confirmer » en guise de texte.
+- **Photos des lieux** : chaque fiche a une image. Dix restaurants sans site officiel ni photo Wikimedia utilisent une photo reprise de leur fiche Tripadvisor, à la demande explicite du foyer — ce ne sont pas des images sous licence libre ; le risque est assumé pour un usage privé, non indexé. La villa utilise une photo de son annonce Airbnb (fournie par la famille), ALDI une devanture ALDI libre de droits en photo d'illustration.
 - **Micro-interactions** : élévation et bordure teintée au survol (souris uniquement), enfoncement au doigt sur téléphone.
 
 ## Architecture
@@ -77,7 +77,7 @@ portugal-family-2026/
 | Fichier | À quoi il sert |
 |---|---|
 | `index.html` + `assets/` + `data/` | Le site tel qu'il est servi en ligne. Modules ES : il lui faut un serveur HTTP, il ne s'ouvre pas depuis le disque. |
-| `public/index.html` (212 Ko) | Le site entier replié dans un seul fichier par `node build.mjs`. À envoyer par message, ou à ouvrir hors connexion. |
+| `public/index.html` (216 Ko) | Le site entier replié dans un seul fichier par `node build.mjs`. À envoyer par message, ou à ouvrir hors connexion. |
 
 Pour travailler en local :
 
@@ -113,9 +113,9 @@ Rien à recompiler pour mettre le site en ligne : Vercel sert `data/` directemen
 ### Conventions des fichiers de données
 
 - `ok: true` — information vérifiée sur une source officielle, affichée telle quelle.
-- `ok: false` — information non vérifiée : le site affiche **À confirmer** en doré.
+- `ok: false` — information non vérifiée : la rubrique **n'est pas affichée** sur la fiche (elle apparaîtra dès que la valeur sera vérifiée et `ok` passé à `true`). Ce qui reste à vérifier est récapitulé dans l'onglet Infos.
 - `place: 'clé'` — renvoie à une entrée de `data/places.js`, qui fournit photo, adresse, téléphone, horaires, tarifs et liens.
-- `warn: '…'` — encadré d'avertissement affiché sous la fiche du lieu.
+- `warn: '…'` — note interne conservée dans les données (non affichée sur les fiches).
 
 ### Changer un horaire
 
@@ -127,6 +127,7 @@ Dans `data/days.js`, chaque journée contient une liste `items` :
 
 `t` est l'heure affichée et sert aussi au compte à rebours « prochaine étape ».
 `k` détermine l'icône : `reveil`, `repas`, `route`, `visite`, `plage`, `courses`, `libre`, `soir`.
+Chaque item doit avoir un `text` : un vrai descriptif, jamais vide, jamais « à confirmer » tout seul.
 
 ### Ajouter un lieu
 
@@ -147,7 +148,7 @@ Ces informations sont utiles dans le site et n'ont rien à faire sur un dépôt 
 
 ## Crédits
 
-Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres. Les crédits exacts des douze photos du bandeau d'accueil sont dans `data/hero.js` et s'affichent sous chaque image. Dix photos de restaurants viennent de leur fiche Tripadvisor respective (voir « Photos des restaurants » plus haut) — ce ne sont pas des images sous licence libre.
+Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres. Les crédits exacts des douze photos du bandeau d'accueil sont dans `data/hero.js` et s'affichent sous chaque image. Dix photos de restaurants viennent de leur fiche Tripadvisor respective (voir « Photos des lieux » plus haut) — ce ne sont pas des images sous licence libre. La photo de la villa vient de son annonce Airbnb, fournie par la famille.
 
 Musique : « Chiado », de [Jahzzar](https://archive.org/details/Paris_Lisboa-11367), album « Paris, Lisboa », sous licence CC BY-SA 3.0. **L'attribution affichée dans le pied de page est exigée par la licence : la retirer rendrait l'usage illicite.** Pour utiliser un autre morceau, déposer le fichier dans `assets/audio/ambiance.mp3` — il est essayé en premier.
 Carte : [Leaflet](https://leafletjs.com/) et fonds [OpenStreetMap](https://www.openstreetmap.org/copyright).
