@@ -32,12 +32,12 @@ p{ margin:0 0 1em; }
 .azulejo{
   position:fixed; inset:-8% 0 -8% 0; z-index:-3; pointer-events:none;
   background-color:var(--accent);
-  opacity:.075;
+  opacity:.13;
   -webkit-mask-image:var(--az); mask-image:var(--az);
   -webkit-mask-size:132px 132px; mask-size:132px 132px;
   -webkit-mask-repeat:repeat; mask-repeat:repeat;
   transform:translate3d(0, var(--az-y, 0px), 0);
-  animation:azDrift 90s linear infinite;
+  animation:azDrift 90s linear infinite, azBreathe 26s ease-in-out infinite;
   transition:background-color 700ms var(--e);
   will-change:transform;
 }
@@ -45,7 +45,27 @@ p{ margin:0 0 1em; }
   --az:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='132' height='132' viewBox='0 0 132 132'%3E%3Cg fill='none' stroke='%23000' stroke-width='2.4'%3E%3Ccircle cx='0' cy='0' r='46'/%3E%3Ccircle cx='132' cy='0' r='46'/%3E%3Ccircle cx='0' cy='132' r='46'/%3E%3Ccircle cx='132' cy='132' r='46'/%3E%3Cpath d='M66 14 L118 66 L66 118 L14 66 Z'/%3E%3Cpath d='M66 36 Q80 66 66 96 Q52 66 66 36 Z'/%3E%3Cpath d='M36 66 Q66 80 96 66 Q66 52 36 66 Z'/%3E%3Ccircle cx='66' cy='66' r='4.5'/%3E%3C/g%3E%3C/svg%3E");
 }
 @keyframes azDrift{ to{ -webkit-mask-position:132px 264px; mask-position:132px 264px; } }
-@media (prefers-reduced-motion:reduce){ .azulejo{ animation:none; transform:none; } }
+/* Respiration lente : la lumière du motif monte et descend, comme un carrelage
+   que le soleil traverse. Deux animations combinées — l'une déplace, l'autre
+   éclaire — suffisent à donner l'impression d'un fond vivant. */
+@keyframes azBreathe{ 0%,100%{ opacity:.10; } 50%{ opacity:.17; } }
+
+/* Halo mouvant, pour la profondeur. Il ne touche jamais le texte : il est
+   posé derrière tout le contenu et reste très diffus. */
+.azulejo::after{
+  content:''; position:absolute; inset:-20%;
+  background:radial-gradient(60% 45% at 50% 40%, rgba(255,255,255,.55), transparent 70%);
+  animation:azHalo 34s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes azHalo{
+  from{ transform:translate3d(-8%, -4%, 0) scale(1); }
+  to  { transform:translate3d(8%, 6%, 0) scale(1.15); }
+}
+@media (prefers-reduced-motion:reduce){
+  .azulejo{ animation:none; transform:none; opacity:.12; }
+  .azulejo::after{ animation:none; }
+}
 
 /* Grain léger, papier */
 body::after{
