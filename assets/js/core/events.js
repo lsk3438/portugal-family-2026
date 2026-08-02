@@ -8,28 +8,22 @@ import { store, save } from './store.js';
 import { toast } from './toast.js';
 import { setAccent } from './helpers.js';
 import { route } from './router.js';
-import { favs, packKey, doneKey, packRefresh } from '../views/day.js';
+import { packKey, doneKey, packRefresh } from '../views/day.js';
 import { renderProgramme, setProgFilter } from '../views/programme.js';
 import { renderBookings, bookingStates, NEXT_ST, ST_LABEL } from '../views/bookings.js';
 import { mapReady, refreshMapSize, showLeg, setMapCat } from '../views/map.js';
 import { TRIP } from '../../../data/trip.js';
+import { openDetails, closeDetails, detailsOpen } from '../features/details.js';
 
 /* ======================================================================
    ÉVÉNEMENTS GLOBAUX (délégation : survit à tous les re-rendus)
    ====================================================================== */
 export function wire(){
   document.addEventListener('click', e => {
-    // favoris
-    const f = e.target.closest('[data-fav]');
-    if (f){
-      const k = f.dataset.fav; const l = favs(); const i = l.indexOf(k);
-      if (i >= 0) l.splice(i,1); else l.push(k);
-      save('pt.favs', l);
-      const on = i < 0;
-      $$(`[data-fav="${k}"]`).forEach(b => b.setAttribute('aria-pressed', String(on)));
-      toast(on ? 'Ajouté à tes favoris' : 'Retiré de tes favoris');
-      return;
-    }
+    // fiche détails
+    const dt = e.target.closest('[data-details]');
+    if (dt){ openDetails(dt.dataset.details); return; }
+    if (e.target.closest('[data-dt-close]')){ closeDetails(); return; }
     // copier une adresse
     const c = e.target.closest('[data-copy]');
     if (c){
@@ -91,7 +85,11 @@ export function wire(){
     }
   });
 
-  window.addEventListener('hashchange', route);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && detailsOpen()) closeDetails();
+  });
+
+  window.addEventListener('hashchange', () => { closeDetails(); route(); });
   window.addEventListener('resize', refreshMapSize, { passive:true });
 
   /* Parallaxe du fond azulejo : le carreau glisse trois fois moins vite que
