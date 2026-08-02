@@ -9,13 +9,20 @@ Cinq onglets, pensés pour le téléphone :
 
 | Onglet | Contenu |
 |---|---|
-| **Accueil** | Compte à rebours jusqu'au 9 août 2026 à 09h00 heure du Portugal, journée en cours, prochaine étape, progression Algarve → Lisbonne → Porto, les trois étapes, état des réservations |
-| **Programme** | Les 12 journées, filtrables par étape, chacune ouvrable en détail : déroulé horaire, fiches de lieux, listes de courses, « à prendre aujourd'hui » |
+| **Accueil** | Compte à rebours jusqu'au 9 août 2026 à 09h00 heure du Portugal, journée en cours, bandeau du jour (météo, coucher du soleil, route, nombre de lieux), progression Algarve → Lisbonne → Porto, les trois étapes |
+| **Programme** | Les 12 journées, filtrables par étape, chacune ouvrable en détail : bandeau photo, déroulé horaire, fiches de lieux, « à prévoir aujourd'hui » |
 | **Carte** | Tous les lieux épinglés, filtrables par étape et par catégorie, itinéraire général, lien Google Maps sur chaque point |
 | **Réservations** | Les 17 réservations à faire, avec statut cliquable : à réserver → en attente → confirmé |
-| **Infos** | Logements, voitures, transports, urgences, documents, météo, checklist générale et la liste complète de ce qui reste à confirmer |
+| **Infos** | Logements, voitures, transports, urgences, documents, météo et la liste complète de ce qui reste à confirmer |
 
 Fonctionne hors connexion pour l'interface une fois la page chargée ; les photos, la carte et les polices ont besoin du réseau. Installable sur l'écran d'accueil (manifeste web inclus).
+
+## Direction artistique
+
+- **Une couleur par région**, appliquée aux bordures, badges, pastilles, boutons et éléments actifs : Algarve bleu Atlantique `#1A6698`, Lisbonne vert `#2F6B4A`, Porto bordeaux `#8E2B3F`. La bascule d'une région à l'autre est animée (`@property` sur `--accent`). Chaque teinte est vérifiée WCAG AA sur le fond papier (5.83 / 5.97 / 7.72).
+- **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité 7,5 %, léger parallaxe au défilement, dérive très lente. Désactivé si le système demande moins d'animations.
+- **Ambiance sonore** : synthétisée dans le navigateur avec l'API Web Audio — ressac de l'Atlantique (bruit brun filtré, amplitude respirante) et corde pincée en mi phrygien. Aucun fichier audio, aucune question de droits. Le son ne démarre jamais seul : le bouton flottant pulse trois fois puis se tait.
+- **Micro-interactions** : élévation et bordure teintée au survol (souris uniquement), enfoncement au doigt sur téléphone.
 
 ## Les deux formes du site
 
@@ -57,7 +64,7 @@ Le fichier `vercel.json` est conservé au cas où. Il permet d'héberger le site
 
 **Tout le contenu du voyage tient dans un seul fichier : `src/trip.js`.**
 
-Horaires, textes, lieux, adresses, téléphones, liens, réservations, checklists, infos pratiques : tout est là, et rien de tout cela ne se trouve dans les composants.
+Horaires, textes, lieux, adresses, téléphones, liens, réservations, infos pratiques : tout est là, et rien de tout cela ne se trouve dans les composants.
 
 ```bash
 # après n'importe quelle modification
@@ -108,7 +115,7 @@ Pour la photo, ajouter une entrée dans `src/images.json` avec une URL Wikimedia
 
 ## Confidentialité
 
-La page porte une balise `noindex, nofollow` : elle ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — favoris, checklists et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
+La page porte une balise `noindex, nofollow` : elle ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — favoris, listes du jour et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
 
 **Ce dépôt est public**, condition imposée par GitHub Pages sur le plan gratuit. Concrètement, tout le contenu de `src/trip.js` est lisible par n'importe qui sur github.com. Aujourd'hui ce fichier ne contient rien de personnel : les adresses des logements sont en « À confirmer » et les numéros de téléphone sont ceux de restaurants et de monuments, tous publics.
 
