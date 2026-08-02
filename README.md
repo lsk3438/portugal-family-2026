@@ -30,14 +30,16 @@ python3 -m http.server 8000
 
 ## Déployer sur Vercel
 
-Le projet est un site statique : aucune étape de build n'est nécessaire côté Vercel.
+Le dépôt ne contient que les sources : `vercel.json` demande à Vercel de lancer `node build.mjs`, qui écrit le site assemblé dans `public/index.html`. Rien d'autre à configurer.
 
 **Depuis l'interface web**
 
-1. Créer un dépôt Git contenant ce dossier et le pousser sur GitHub, GitLab ou Bitbucket.
-2. Sur [vercel.com](https://vercel.com), cliquer sur **Add New → Project** puis importer le dépôt.
-3. Laisser **Framework Preset** sur `Other`, laisser **Build Command** et **Output Directory** vides.
+1. Sur [vercel.com](https://vercel.com), cliquer sur **Add New → Project**.
+2. Importer le dépôt `portugal-family-2026` (autoriser Vercel à lire le dépôt privé).
+3. Laisser **Framework Preset** sur `Other` et ne rien changer : `vercel.json` fournit déjà `buildCommand: node build.mjs` et `outputDirectory: public`.
 4. Cliquer sur **Deploy**. Le site est en ligne en une minute environ.
+
+Aucune variable d'environnement n'est nécessaire.
 
 **Depuis le terminal**
 
