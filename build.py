@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Portugal Family Trip 2026 — générateur local (équivalent de build.mjs).
+Portugal Family Trip 2026 — générateur du site.
 
 Usage :
     python3 build.py
@@ -42,6 +42,9 @@ def main():
         f.write(html)
 
     print("  index.html généré — %.0f Ko" % (os.path.getsize(out) / 1024))
+    print("  %d journées · %d lieux · %d réservations · %d images"
+          % (trip.count("      n: "), trip.count("      name: '") + trip.count('      name: "'),
+             trip.count("{ name: '"), len(images)))
     return 0
 
 
