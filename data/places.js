@@ -39,17 +39,17 @@ export const PLACES = {
       maps: 'https://www.google.com/maps/search/?api=1&query=37.0711363,-8.1158308'
     },
     cesteiro: {
-      name: 'Restaurante O Cesteiro', cat: 'restaurant', city: 'Vilamoura', img: null,
+      name: 'Restaurante O Cesteiro', cat: 'restaurant', city: 'Vilamoura', img: 'cesteiro-ta',
       desc: "Restaurant familial de poisson et fruits de mer ouvert depuis 1986, avec vue sur la marina de Vilamoura.", cuisine: 'Poisson et fruits de mer',
       address: { v: 'Av. Cerro da Vila, Edifício Vilamarina 84, 8125-401 Vilamoura', ok: true },
       phone: { v: '+351 289 312 961', ok: true },
       url: { v: 'https://www.visitportugal.com/en/NR/exeres/015A1E9E-D164-49C9-A92E-6E1B6DD0287F', ok: true, label: 'Fiche Turismo de Portugal' },
       hours: { v: '13h00 – 15h00 et 19h00 – 00h00 (fiche non datée)', ok: false },
       maps: 'https://www.google.com/maps/search/?api=1&query=Restaurante%20O%20Cesteiro%2C%20Av.%20Cerro%20da%20Vila%2C%20Edif%C3%ADcio%20Vilamarina%2084%2C%208125-401%20Vilamoura%2C%20Portugal',
-      warn: "Pas de site web propre. Horaires issus d’une fiche non datée : appeler pour confirmer et réserver."
+      warn: "Pas de site web propre. Horaires issus d’une fiche non datée : appeler pour confirmer et réserver. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     aldi: {
-      name: 'ALDI Quarteira', cat: 'courses', city: 'Quarteira', img: null,
+      name: 'ALDI Quarteira', cat: 'courses', city: 'Quarteira', img: 'aldi',
       desc: "Supermarché pour les courses du séjour : eau, petits-déjeuners, snacks, produits du logement.",
       address: { v: 'Av. da Fonte Santa 275, 8120-020 Quarteira', ok: true },
       phone: { v: null, ok: false },
@@ -96,7 +96,7 @@ export const PLACES = {
       maps: 'https://www.google.com/maps/search/?api=1&query=37.1155086,-8.5320834'
     },
     nosoloagua: {
-      name: 'NoSoloÁgua Portimão', cat: 'restaurant', city: 'Portimão', img: null,
+      name: 'NoSoloÁgua Portimão', cat: 'restaurant', city: 'Portimão', img: 'nosoloagua-ta',
       desc: "Beach club et pool club près de la Marina de Portimão : piscine d’eau salée, transats, restaurant et programmation musicale.", cuisine: 'Beach club en bord de mer',
       address: { v: 'Praia Marina de Portimão, Bloco 4, Loja 1, 8500 Portimão', ok: true },
       phone: { v: '+351 910 789 991 (piscine) · +351 911 139 426 (plage)', ok: true },
@@ -104,7 +104,7 @@ export const PLACES = {
       book: { v: 'https://nosoloagua.com/nsaptm/en/contacts/', ok: true },
       hours: { v: null, ok: false },
       maps: 'https://www.google.com/maps/search/?api=1&query=37.1153868,-8.5275692',
-      warn: "Le formulaire de réservation officiel indique « Fridays, Saturdays and Sundays — Adults only (Under 18 not allowed) ». Le 12 août est un mercredi, donc a priori sans objet, mais à confirmer par téléphone. Les coordonnées GPS publiées par l’établissement sont erronées ; celles utilisées ici viennent d’OpenStreetMap."
+      warn: "Le formulaire de réservation officiel indique « Fridays, Saturdays and Sundays — Adults only (Under 18 not allowed) ». Le 12 août est un mercredi, donc a priori sans objet, mais à confirmer par téléphone. Les coordonnées GPS publiées par l’établissement sont erronées ; celles utilisées ici viennent d’OpenStreetMap. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     yachtVilamoura: {
       name: 'Yacht privé — Marina de Vilamoura', cat: 'activite', city: 'Vilamoura', img: 'piedade',
@@ -120,14 +120,14 @@ export const PLACES = {
 
     /* ---------- LISBONNE ---------- */
     theOven: {
-      name: 'Oven Lisboa', cat: 'restaurant', city: 'Lisbonne', img: null,
+      name: 'Oven Lisboa', cat: 'restaurant', city: 'Lisbonne', img: 'theoven-ta',
       desc: "Restaurant indo-népalais de la Baixa, spécialisé dans les cuissons au tandoor, cité au Guide MICHELIN.", cuisine: 'Indo-népalais, cuissons au tandoor',
       address: { v: 'Rua dos Fanqueiros 232, 1100-232 Lisboa', ok: true },
       phone: { v: '+351 964 515 454', ok: false },
-      url: { v: null, ok: false },
+      url: { v: 'https://www.tripadvisor.com/Restaurant_Review-g189158-d23462887-Reviews-Oven_Lisboa-Lisbon_Lisbon_District_Central_Portugal.html', ok: true, label: 'Voir sur Tripadvisor' },
       hours: { v: null, ok: false },
       maps: 'https://www.google.com/maps/search/?api=1&query=38.7121059,-9.1364112',
-      warn: "Pas de site officiel. Deux numéros différents circulent. Cuisine épicée : à vérifier pour les enfants. Réservation à confirmer par téléphone."
+      warn: "Pas de site officiel : le lien renvoie vers Tripadvisor. Deux numéros différents circulent. Cuisine épicée : à vérifier pour les enfants. Réservation à confirmer par téléphone. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     comercio: {
       name: 'Praça do Comércio', cat: 'monument', city: 'Lisbonne', img: 'comercio',
@@ -205,34 +205,34 @@ export const PLACES = {
       maps: 'https://www.google.com/maps/search/?api=1&query=38.71222,-9.13000'
     },
     cimas: {
-      name: 'CIMAS – The English Bar', cat: 'restaurant', city: 'Estoril', img: null,
+      name: 'CIMAS – The English Bar', cat: 'restaurant', city: 'Estoril', img: 'cimas-ta',
       desc: "Restaurant historique de Monte Estoril, de style english bar : gibier, poissons et fruits de mer de l’Atlantique, desserts flambés.", cuisine: 'Gibier, poisson et fruits de mer',
       address: { v: 'Avenida de Sabóia 9, Monte Estoril, 2765-278 Estoril', ok: true },
       phone: { v: '+351 214 681 254', ok: true },
       url: { v: 'https://www.cimas.com.pt/en/', ok: true, label: 'Site officiel' },
       hours: { v: 'Lundi au samedi : 12h30 – 15h00 et 19h00 – 23h00 · fermé le dimanche', ok: true },
       maps: 'https://www.google.com/maps/search/?api=1&query=38.7049934,-9.4079212',
-      warn: "À environ 780 m de la Praia do Tamariz, avec une montée. Fermé le dimanche."
+      warn: "À environ 780 m de la Praia do Tamariz, avec une montée. Fermé le dimanche. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     bolina: {
-      name: 'Bolina', cat: 'restaurant', city: 'Estoril', img: null,
+      name: 'Bolina', cat: 'restaurant', city: 'Estoril', img: 'bolina-ta',
       desc: "Restaurant de poisson installé directement sur la promenade du Paredão, entre la Praia do Tamariz et la Praia da Poça.", cuisine: 'Poisson, face à la plage',
       address: { v: 'Paredão, entre Praia do Tamariz et Praia da Poça, 2765-262 Estoril', ok: true },
       phone: { v: '+351 21 468 7821', ok: false },
-      url: { v: null, ok: false },
+      url: { v: 'https://www.tripadvisor.com/Restaurant_Review-g189156-d1419347-Reviews-Bolina-Estoril_Cascais_Lisbon_District_Central_Portugal.html', ok: true, label: 'Voir sur Tripadvisor' },
       hours: { v: null, ok: false },
       maps: 'https://www.google.com/maps/search/?api=1&query=38.7020762,-9.3960662',
-      warn: "À 4-5 minutes à pied de la plage, sur le plat. Les horaires relevés suggèrent une fermeture à 18h00, donc pas de service du soir : appeler avant de compter dessus."
+      warn: "Pas de site officiel : le lien renvoie vers Tripadvisor. À 4-5 minutes à pied de la plage, sur le plat. Les horaires relevés suggèrent une fermeture à 18h00, donc pas de service du soir : appeler avant de compter dessus. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     oMira: {
-      name: 'O Mira', cat: 'restaurant', city: 'São Pedro do Estoril', img: null,
+      name: 'O Mira', cat: 'restaurant', city: 'São Pedro do Estoril', img: 'omira-ta',
       desc: "Restaurant portugais en bord de mer à São Pedro do Estoril : grillades et cuisine familiale, salle climatisée et terrasse.", cuisine: 'Portugais, grillades',
       address: { v: 'Av. Marginal 4 B, 2765-584 São Pedro do Estoril', ok: true },
       phone: { v: '+351 214 688 069', ok: true },
       url: { v: 'https://omira.eatbu.com/?lang=en', ok: true, label: 'Site officiel' },
       hours: { v: 'Tous les jours 12h00 – 23h00', ok: true },
       maps: 'https://www.google.com/maps/search/?api=1&query=38.6943361,-9.3703710',
-      warn: "À 2,7 km de la Praia do Tamariz : prévoir la voiture ou le train, pas la marche avec des enfants."
+      warn: "À 2,7 km de la Praia do Tamariz : prévoir la voiture ou le train, pas la marche avec des enfants. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     tamariz: {
       name: 'Praia do Tamariz', cat: 'plage', city: 'Estoril', img: 'tamariz',
@@ -265,14 +265,14 @@ export const PLACES = {
       warn: "Le pack famille à 60 € est plus avantageux que 4 billets séparés (70 €). Terrain pentu, escaliers humides, souterrains : chaussures fermées, poussette déconseillée."
     },
     strauss: {
-      name: 'O Tasco do Strauss', cat: 'restaurant', city: 'Sintra', img: null,
+      name: 'O Tasco do Strauss', cat: 'restaurant', city: 'Sintra', img: 'strauss-ta',
       desc: "Petite tasca de Sintra installée dans les locaux de la Sociedade Filarmónica dos Aliados, orientée boissons et petiscos.", cuisine: 'Tasca, petiscos et boissons',
       address: { v: 'Largo dos Aliados 2, 2710-168 Sintra', ok: false },
       phone: { v: '+351 920 730 180', ok: false },
-      url: { v: null, ok: false },
+      url: { v: 'https://www.tripadvisor.com/Restaurant_Review-g189164-d11722515-Reviews-O_Tasco_Do_Strauss-Sintra_Sintra_Municipality_Lisbon_District_Central_Portugal.html', ok: true, label: 'Voir sur Tripadvisor' },
       hours: { v: null, ok: false },
       maps: 'https://www.google.com/maps/search/?api=1&query=38.7925315,-9.3807098',
-      warn: "AUCUNE source officielle n’a confirmé que cet établissement est toujours en activité en 2026. Adresse et téléphone proviennent uniquement d’agrégateurs d’avis. À appeler avant de compter dessus, et à remplacer si nécessaire."
+      warn: "AUCUNE source officielle n’a confirmé que cet établissement est toujours en activité en 2026. Adresse et téléphone proviennent uniquement d’agrégateurs d’avis. À appeler avant de compter dessus, et à remplacer si nécessaire. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     pena: {
       name: 'Parque e Palácio Nacional da Pena', cat: 'monument', city: 'Sintra', img: 'pena',
@@ -384,33 +384,34 @@ export const PLACES = {
       warn: "Billet-voucher OBLIGATOIRE pour entrer, même pour acheter un livre ; son montant est déduit de l’achat. Gratuit jusqu’à 3 ans inclus. Billet valable jusqu’à 60 min après l’heure réservée. Le prix n’est pas publié en clair : le voir sur la billetterie."
     },
     saoNicolau: {
-      name: 'Adega São Nicolau', cat: 'restaurant', city: 'Porto', img: null,
+      name: 'Adega São Nicolau', cat: 'restaurant', city: 'Porto', img: 'saonicolau-ta',
       desc: "Petite adresse traditionnelle de la Ribeira : poisson, morue et plats de terroir, avec une terrasse donnant sur le Douro.", cuisine: 'Poisson, morue et terroir',
       address: { v: 'Rua de S. Nicolau 1, 4050-161 Porto', ok: true },
       phone: { v: '+351 222 008 232', ok: true },
       url: { v: 'https://adegasnicolau.eatbu.com/?lang=en', ok: true, label: 'Page officielle' },
       hours: { v: 'Lundi au samedi 12h00 – 15h00 et 19h00 – 22h30 · fermé le dimanche', ok: true },
       maps: 'https://www.google.com/maps/search/?api=1&query=41.1404291,-8.6148874',
-      warn: "Petit établissement, pas de réservation en ligne : appeler."
+      warn: "Petit établissement, pas de réservation en ligne : appeler. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     mercadores: {
-      name: 'Taberna dos Mercadores', cat: 'restaurant', city: 'Porto', img: null,
+      name: 'Taberna dos Mercadores', cat: 'restaurant', city: 'Porto', img: 'mercadores-ta',
       desc: "Toute petite taverne de la Ribeira, huit tables seulement : poisson frais du jour, palourdes, poulpe, morue, agneau du nord.", cuisine: 'Poisson frais, taverne de la Ribeira',
       address: { v: 'Rua dos Mercadores 36-38, 4050-373 Porto', ok: true },
       phone: { v: '+351 222 010 510', ok: true },
       url: { v: 'https://tabernadosmercadores.com/', ok: true, label: 'Site officiel' },
       hours: { v: 'Mardi au dimanche 12h30 – 22h30, dernier service 21h45 · fermé le lundi', ok: true },
       maps: 'https://www.google.com/maps/search/?api=1&query=41.1413553,-8.6129667',
-      warn: "Huit tables : les réservations partent parfois des mois à l’avance. Appels pris entre 10h30 et 11h30."
+      warn: "Huit tables : les réservations partent parfois des mois à l’avance. Appels pris entre 10h30 et 11h30. Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     abadia: {
-      name: 'Restaurante Abadia do Porto', cat: 'restaurant', city: 'Porto', img: null,
+      name: 'Restaurante Abadia do Porto', cat: 'restaurant', city: 'Porto', img: 'abadia-ta',
       desc: "Institution de la Baixa depuis plus de 80 ans : bacalhau com broa, arroz de tamboril, polvo à lagareiro et tripas à moda do Porto.", cuisine: 'Cuisine du Porto, bacalhau',
       address: { v: 'Rua Ateneu Comercial do Porto 22-24, 4000-380 Porto', ok: true },
       phone: { v: '+351 222 008 757 · +351 963 566 127', ok: true },
       url: { v: 'https://www.abadiadoporto.com/', ok: true, label: 'Site officiel' },
       hours: { v: 'Mardi au samedi 12h00 – 15h00 et 18h30 – 22h30 · lundi 18h30 – 22h30 · fermé le dimanche', ok: true },
-      maps: 'https://www.google.com/maps/search/?api=1&query=41.1480480,-8.6079063'
+      maps: 'https://www.google.com/maps/search/?api=1&query=41.1480480,-8.6079063',
+      warn: "Photo reprise de la fiche Tripadvisor de l’établissement."
     },
     ribeira: {
       name: 'Cais da Ribeira', cat: 'monument', city: 'Porto', img: 'ribeira',
@@ -526,7 +527,7 @@ export const PLACES = {
     name: 'Villa de Quarteira',
     cat: 'logement',
     city: 'Quarteira',
-    img: null,
+    img: 'villa',
     desc: 'Le point de chute des quatre premières nuits, à Quarteira, à quelques minutes de la marina de Vilamoura et des plages de l’Algarve central.',
     address: { v: 'Rua Duas Sentinelas 9, 8125 Quarteira, Faro, Portugal', ok: true },
     url: { v: 'https://www.airbnb.fr/rooms/704227875262201756?source_impression_id=p3_1785665528_P3-TSH7K7TllYGYE', ok: true, label: 'Voir l’annonce Airbnb' },
@@ -538,6 +539,6 @@ export const PLACES = {
     kids: { v: '', ok: false },
     bring: { v: '', ok: false },
     tips: { v: '', ok: false },
-    warn: 'À récupérer auprès de l’hôte avant l’arrivée : code Wi-Fi, instructions d’arrivée, code de la porte, nom et téléphone du contact sur place, règles du logement. Les photos de l’annonce Airbnb sont protégées : elles ne peuvent pas être recopiées ici, le bouton renvoie vers l’annonce.'
+    warn: 'À récupérer auprès de l’hôte avant l’arrivée : code Wi-Fi, instructions d’arrivée, code de la porte, nom et téléphone du contact sur place, règles du logement.'
   }
 };
