@@ -21,19 +21,11 @@ const TRIP = {
   endISO:    '2026-08-20T16:00:00+01:00',
   intro: "Douze jours en famille, de l’Atlantique de l’Algarve aux collines de Lisbonne, jusqu’au Douro.",
 
-  /* Playlist Spotify du voyage. Pour qu’elle s’affiche chez tout le monde, elle
-     doit être passée en PUBLIQUE dans Spotify (playlist → ⋯ → Rendre publique). */
-  playlist: {
-    id: '4MDP2Auk009Gkibtzfam78',
-    name: 'Portugal Summer Road Trip',
-    url: 'https://open.spotify.com/playlist/4MDP2Auk009Gkibtzfam78'
-  },
-
   /* ---------------------------------------------------------------- ÉTAPES */
   legs: [
-    { id: 'algarve',  name: 'Algarve',  short: 'Algarve',  from: 1, to: 4,  dates: '9 → 12 août', base: 'Vilamoura / Quarteira', color: '#B0541C', deep: '#8A3D14', lat: 37.075, lon: -8.12 },
-    { id: 'lisbonne', name: 'Lisbonne', short: 'Lisbonne', from: 5, to: 8,  dates: '13 → 16 août', base: 'Lisbonne', color: '#2E6DA4', deep: '#1B4470', lat: 38.72, lon: -9.14 },
-    { id: 'porto',    name: 'Porto',    short: 'Porto',    from: 9, to: 12, dates: '17 → 20 août', base: 'Porto', color: '#8E2B3F', deep: '#5E1A28', lat: 41.15, lon: -8.61 }
+    { id: 'algarve',  name: 'Algarve',  short: 'Algarve',  from: 1, to: 4,  dates: '9 → 12 août', base: 'Vilamoura / Quarteira', color: '#1A6698', deep: '#0F4570', light: '#8FCBEC', lat: 37.075, lon: -8.12 },
+    { id: 'lisbonne', name: 'Lisbonne', short: 'Lisbonne', from: 5, to: 8,  dates: '13 → 16 août', base: 'Lisbonne', color: '#2F6B4A', deep: '#1E4A33', light: '#93D3AC', lat: 38.72, lon: -9.14 },
+    { id: 'porto',    name: 'Porto',    short: 'Porto',    from: 9, to: 12, dates: '17 → 20 août', base: 'Porto', color: '#8E2B3F', deep: '#5E1A28', light: '#F2A6B4', lat: 41.15, lon: -8.61 }
   ],
 
   /* ---------------------------------------------------------------- LIEUX
@@ -69,7 +61,7 @@ const TRIP = {
     },
     cesteiro: {
       name: 'Restaurante O Cesteiro', cat: 'restaurant', city: 'Vilamoura', img: null,
-      desc: "Restaurant familial de poisson et fruits de mer ouvert depuis 1986, avec vue sur la marina de Vilamoura.",
+      desc: "Restaurant familial de poisson et fruits de mer ouvert depuis 1986, avec vue sur la marina de Vilamoura.", cuisine: 'Poisson et fruits de mer',
       address: { v: 'Av. Cerro da Vila, Edifício Vilamarina 84, 8125-401 Vilamoura', ok: true },
       phone: { v: '+351 289 312 961', ok: true },
       url: { v: 'https://www.visitportugal.com/en/NR/exeres/015A1E9E-D164-49C9-A92E-6E1B6DD0287F', ok: true, label: 'Fiche Turismo de Portugal' },
@@ -126,7 +118,7 @@ const TRIP = {
     },
     nosoloagua: {
       name: 'NoSoloÁgua Portimão', cat: 'restaurant', city: 'Portimão', img: null,
-      desc: "Beach club et pool club près de la Marina de Portimão : piscine d’eau salée, transats, restaurant et programmation musicale.",
+      desc: "Beach club et pool club près de la Marina de Portimão : piscine d’eau salée, transats, restaurant et programmation musicale.", cuisine: 'Beach club en bord de mer',
       address: { v: 'Praia Marina de Portimão, Bloco 4, Loja 1, 8500 Portimão', ok: true },
       phone: { v: '+351 910 789 991 (piscine) · +351 911 139 426 (plage)', ok: true },
       url: { v: 'https://nosoloagua.com/nsaptm/en/homeen/', ok: true, label: 'Site officiel' },
@@ -150,7 +142,7 @@ const TRIP = {
     /* ---------- LISBONNE ---------- */
     theOven: {
       name: 'Oven Lisboa', cat: 'restaurant', city: 'Lisbonne', img: null,
-      desc: "Restaurant indo-népalais de la Baixa, spécialisé dans les cuissons au tandoor, cité au Guide MICHELIN.",
+      desc: "Restaurant indo-népalais de la Baixa, spécialisé dans les cuissons au tandoor, cité au Guide MICHELIN.", cuisine: 'Indo-népalais, cuissons au tandoor',
       address: { v: 'Rua dos Fanqueiros 232, 1100-232 Lisboa', ok: true },
       phone: { v: '+351 964 515 454', ok: false },
       url: { v: null, ok: false },
@@ -235,7 +227,7 @@ const TRIP = {
     },
     cimas: {
       name: 'CIMAS – The English Bar', cat: 'restaurant', city: 'Estoril', img: null,
-      desc: "Restaurant historique de Monte Estoril, de style english bar : gibier, poissons et fruits de mer de l’Atlantique, desserts flambés.",
+      desc: "Restaurant historique de Monte Estoril, de style english bar : gibier, poissons et fruits de mer de l’Atlantique, desserts flambés.", cuisine: 'Gibier, poisson et fruits de mer',
       address: { v: 'Avenida de Sabóia 9, Monte Estoril, 2765-278 Estoril', ok: true },
       phone: { v: '+351 214 681 254', ok: true },
       url: { v: 'https://www.cimas.com.pt/en/', ok: true, label: 'Site officiel' },
@@ -245,7 +237,7 @@ const TRIP = {
     },
     bolina: {
       name: 'Bolina', cat: 'restaurant', city: 'Estoril', img: null,
-      desc: "Restaurant de poisson installé directement sur la promenade du Paredão, entre la Praia do Tamariz et la Praia da Poça.",
+      desc: "Restaurant de poisson installé directement sur la promenade du Paredão, entre la Praia do Tamariz et la Praia da Poça.", cuisine: 'Poisson, face à la plage',
       address: { v: 'Paredão, entre Praia do Tamariz et Praia da Poça, 2765-262 Estoril', ok: true },
       phone: { v: '+351 21 468 7821', ok: false },
       url: { v: null, ok: false },
@@ -255,7 +247,7 @@ const TRIP = {
     },
     oMira: {
       name: 'O Mira', cat: 'restaurant', city: 'São Pedro do Estoril', img: null,
-      desc: "Restaurant portugais en bord de mer à São Pedro do Estoril : grillades et cuisine familiale, salle climatisée et terrasse.",
+      desc: "Restaurant portugais en bord de mer à São Pedro do Estoril : grillades et cuisine familiale, salle climatisée et terrasse.", cuisine: 'Portugais, grillades',
       address: { v: 'Av. Marginal 4 B, 2765-584 São Pedro do Estoril', ok: true },
       phone: { v: '+351 214 688 069', ok: true },
       url: { v: 'https://omira.eatbu.com/?lang=en', ok: true, label: 'Site officiel' },
@@ -295,7 +287,7 @@ const TRIP = {
     },
     strauss: {
       name: 'O Tasco do Strauss', cat: 'restaurant', city: 'Sintra', img: null,
-      desc: "Petite tasca de Sintra installée dans les locaux de la Sociedade Filarmónica dos Aliados, orientée boissons et petiscos.",
+      desc: "Petite tasca de Sintra installée dans les locaux de la Sociedade Filarmónica dos Aliados, orientée boissons et petiscos.", cuisine: 'Tasca, petiscos et boissons',
       address: { v: 'Largo dos Aliados 2, 2710-168 Sintra', ok: false },
       phone: { v: '+351 920 730 180', ok: false },
       url: { v: null, ok: false },
@@ -348,7 +340,7 @@ const TRIP = {
     },
     pasteis: {
       name: 'Pastéis de Belém', cat: 'restaurant', city: 'Lisbonne', img: 'pasteis',
-      desc: "Pâtisserie fondée en 1837, seule détentrice de la recette originale du pastel de Belém, avec de vastes salles en azulejos.",
+      desc: "Pâtisserie fondée en 1837, seule détentrice de la recette originale du pastel de Belém, avec de vastes salles en azulejos.", cuisine: 'Pâtisserie, pastéis de Belém',
       address: { v: 'Rua de Belém 84 à 92, 1300-085 Lisboa', ok: true },
       phone: { v: '+351 213 637 423', ok: true },
       url: { v: 'https://pasteisdebelem.pt/en/', ok: true, label: 'Site officiel' },
@@ -414,7 +406,7 @@ const TRIP = {
     },
     saoNicolau: {
       name: 'Adega São Nicolau', cat: 'restaurant', city: 'Porto', img: null,
-      desc: "Petite adresse traditionnelle de la Ribeira : poisson, morue et plats de terroir, avec une terrasse donnant sur le Douro.",
+      desc: "Petite adresse traditionnelle de la Ribeira : poisson, morue et plats de terroir, avec une terrasse donnant sur le Douro.", cuisine: 'Poisson, morue et terroir',
       address: { v: 'Rua de S. Nicolau 1, 4050-161 Porto', ok: true },
       phone: { v: '+351 222 008 232', ok: true },
       url: { v: 'https://adegasnicolau.eatbu.com/?lang=en', ok: true, label: 'Page officielle' },
@@ -424,7 +416,7 @@ const TRIP = {
     },
     mercadores: {
       name: 'Taberna dos Mercadores', cat: 'restaurant', city: 'Porto', img: null,
-      desc: "Toute petite taverne de la Ribeira, huit tables seulement : poisson frais du jour, palourdes, poulpe, morue, agneau du nord.",
+      desc: "Toute petite taverne de la Ribeira, huit tables seulement : poisson frais du jour, palourdes, poulpe, morue, agneau du nord.", cuisine: 'Poisson frais, taverne de la Ribeira',
       address: { v: 'Rua dos Mercadores 36-38, 4050-373 Porto', ok: true },
       phone: { v: '+351 222 010 510', ok: true },
       url: { v: 'https://tabernadosmercadores.com/', ok: true, label: 'Site officiel' },
@@ -434,7 +426,7 @@ const TRIP = {
     },
     abadia: {
       name: 'Restaurante Abadia do Porto', cat: 'restaurant', city: 'Porto', img: null,
-      desc: "Institution de la Baixa depuis plus de 80 ans : bacalhau com broa, arroz de tamboril, polvo à lagareiro et tripas à moda do Porto.",
+      desc: "Institution de la Baixa depuis plus de 80 ans : bacalhau com broa, arroz de tamboril, polvo à lagareiro et tripas à moda do Porto.", cuisine: 'Cuisine du Porto, bacalhau',
       address: { v: 'Rua Ateneu Comercial do Porto 22-24, 4000-380 Porto', ok: true },
       phone: { v: '+351 222 008 757 · +351 963 566 127', ok: true },
       url: { v: 'https://www.abadiadoporto.com/', ok: true, label: 'Site officiel' },
@@ -569,8 +561,7 @@ const TRIP = {
         { t: '20h00', k: 'soir', title: 'Dîner simple à la villa', text: "Avec les courses du jour." },
         { t: '21h30', k: 'soir', title: 'Première soirée en famille', text: "Tranquille." }
       ],
-      pack: ['Maillot et serviette dans le bagage cabine', 'Crème solaire 50', 'Lunettes de soleil', 'Permis de conduire pour le loueur', 'Passeports ou cartes d’identité', 'Une veste légère pour le soir'],
-      shop: { title: 'Liste de courses — ALDI Quarteira', items: ['Eau', 'Jus', 'Petits-déjeuners', 'Snacks', 'Fruits', 'Boissons', 'Produits pour le logement', 'Glaces', 'Produits pour les enfants'] }
+      pack: ['Maillot et serviette dans le bagage cabine', 'Crème solaire 50', 'Lunettes de soleil', 'Permis de conduire pour le loueur', 'Passeports ou cartes d’identité', 'Une veste légère pour le soir']
     },
     {
       n: 2, date: '2026-08-10', label: 'Lundi 10 août', leg: 'algarve', sunset: '20h32',
@@ -592,8 +583,7 @@ const TRIP = {
         { t: '20h00', k: 'soir', title: 'Barbecue « Saveurs de l’Algarve »', text: "Poissons grillés, gambas, viandes, légumes, salades, pain portugais, fruits, desserts." },
         { t: '22h00', k: 'soir', title: 'Piscine, musique, soirée familiale', text: "" }
       ],
-      pack: ['Sacs isothermes pour le marché', 'Espèces pour le marché', 'Maillots et serviettes', 'Crème solaire', 'Chapeaux', 'Eau'],
-      shop: { title: 'Liste d’achats — marché de Loulé', items: ['Poisson frais', 'Gambas', 'Calamars', 'Viande', 'Légumes', 'Salade', 'Pain', 'Fruits', 'Desserts', 'Boissons', 'Glaçons', 'Charbon ou matériel selon l’équipement de la villa'] }
+      pack: ['Sacs isothermes pour le marché', 'Espèces pour le marché', 'Maillots et serviettes', 'Crème solaire', 'Chapeaux', 'Eau']
     },
     {
       n: 3, date: '2026-08-11', label: 'Mardi 11 août', leg: 'algarve', sunset: '20h31',
@@ -871,25 +861,7 @@ const TRIP = {
     }
   ],
 
-  /* ------------------------------------------------------ CHECKLIST GÉNÉRALE */
-  checklist: [
-    'Passeports ou cartes d’identité valides pour tout le monde',
-    'Cartes européennes d’assurance maladie',
-    'Permis de conduire du ou des conducteurs',
-    'Confirmations de vol et de location de voiture',
-    'Réserver le yacht et confirmer l’horaire',
-    'Réserver Aquashow en ligne',
-    'Réserver Regaleira et le créneau de Pena',
-    'Réserver le créneau de la Torre de Belém',
-    'Réserver le billet de la Livraria Lello',
-    'Réserver la Quinta do Bomfim et la croisière de Pinhão',
-    'Crème solaire 50, chapeaux, lunettes',
-    'Chaussures fermées à semelle adhérente',
-    'Veste légère pour les soirées à Porto et sur le bateau',
-    'Adaptateur non nécessaire, prises françaises',
-    'Cartes hors-ligne téléchargées',
-    'Un peu de liquide pour les marchés'
-  ],
+  
 
   /* ------------------------------------------------------------ À CONFIRMER */
   toConfirm: [
