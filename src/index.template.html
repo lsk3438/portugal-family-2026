@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Portugal Family Trip 2026 — Algarve · Lisbonne · Porto</title>
+<meta name="description" content="Le carnet du voyage familial au Portugal, du 9 au 20 août 2026 : programme jour par jour, carte, réservations et infos pratiques.">
+<meta name="theme-color" content="#FBF8F3">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Portugal 2026">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Portugal Family Trip 2026">
+<meta property="og:description" content="9 → 20 août 2026 · Algarve, Lisbonne, Porto">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23123A5A'/%3E%3Ctext x='50' y='69' font-size='54' text-anchor='middle' font-family='Georgia,serif' fill='%23E8B87E'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Portugal%20Family%20Trip%202026%22%2C%22short_name%22%3A%22Portugal%202026%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FBF8F3%22%2C%22theme_color%22%3A%22%23FBF8F3%22%7D">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://upload.wikimedia.org" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+<style>
+/*__CSS__*/
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__in">
+    <a class="top__logo" href="#/accueil">Portugal <i>2026</i></a>
+    <span class="top__date">9 – 20 août</span>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Navigation principale">
+  <div class="wrap tabs__in" id="tabs"></div>
+</nav>
+
+<main id="app">
+
+  <!-- ============================ ACCUEIL ============================ -->
+  <section class="view" id="v-accueil" aria-labelledby="h-accueil">
+    <div class="hero">
+      <img class="hero__img" id="home-img" alt="" fetchpriority="high" width="1920" height="1080" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='9'%3E%3C/svg%3E">
+      <div class="hero__veil"></div>
+      <div class="hero__in">
+        <p class="hero__eyebrow" id="home-eyebrow"></p>
+        <h1 class="hero__title" id="h-accueil">Portugal Family <i>Trip</i></h1>
+        <p class="hero__sub" id="home-sub"></p>
+        <p class="cd__msg" id="cd-msg" hidden></p>
+        <div class="cd" id="cd" role="timer" aria-live="off" aria-label="Compte à rebours avant le départ"></div>
+        <p class="hero__eyebrow" id="cd-label" style="margin:14px 0 0"></p>
+        <div class="prog">
+          <div class="prog__bar"><i id="prog-bar"></i></div>
+          <div class="prog__legs" id="prog-legs"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <a class="next" id="home-next" href="#/programme"></a>
+    </div>
+
+    <div class="wrap sec">
+      <h2 class="sec__t">Les trois étapes</h2>
+      <div class="legs" id="home-legs"></div>
+    </div>
+
+    <div class="wrap sec sec--tight">
+      <h2 class="sec__t">La bande-son du voyage</h2>
+      <div class="music" id="music"></div>
+    </div>
+  </section>
+
+  <!-- ============================ PROGRAMME ============================ -->
+  <section class="view" id="v-programme" aria-labelledby="h-prog">
+    <div class="wrap sec">
+      <h2 class="sec__t">Le voyage</h2>
+      <h1 class="h-lg" id="h-prog">Programme</h1>
+      <p class="lead" style="margin-top:12px">Douze journées, du dimanche 9 au jeudi 20 août. Touchez une journée pour l’ouvrir.</p>
+      <div class="filters" id="prog-filters" style="margin-top:24px"></div>
+      <div class="daylist" id="prog-days"></div>
+    </div>
+  </section>
+
+  <!-- ============================ JOURNÉE ============================ -->
+  <section class="view" id="v-jour" aria-labelledby="h-jour">
+    <div class="dhero">
+      <div class="dhero__band" id="d-band" aria-hidden="true"></div>
+      <div class="dhero__dots" id="d-dots" aria-hidden="true"></div>
+      <div class="dhero__v"></div>
+      <div class="dhero__in">
+        <a class="back" href="#/programme"><span id="d-backico"></span>Programme</a>
+        <div class="dhero__chips" id="d-chips"></div>
+        <h1 class="dhero__t" id="h-jour"></h1>
+        <p class="dhero__lead" id="d-lead"></p>
+        <div class="dhero__f" id="d-facts"></div>
+      </div>
+    </div>
+
+    <div class="dbar">
+      <div class="wrap dbar__in">
+        <div class="dbar__next" id="d-next"></div>
+        <div class="dbar__jump" id="d-jump"></div>
+      </div>
+    </div>
+
+    <div class="wrap sec">
+      <h2 class="sec__t">Le déroulé</h2>
+      <div class="tl" id="d-tl">
+        <div class="tl__rail" aria-hidden="true"><i id="d-rail"></i></div>
+        <div id="d-steps"></div>
+      </div>
+    </div>
+
+    <div class="wrap sec sec--tight" id="d-shopwrap" hidden>
+      <h2 class="sec__t" id="d-shoptitle">Liste de courses</h2>
+      <ul class="check" id="d-shop"></ul>
+    </div>
+
+    <div class="wrap sec sec--tight">
+      <h2 class="sec__t">À prendre aujourd’hui</h2>
+      <ul class="check" id="d-pack"></ul>
+      <div class="meter"><i id="d-packbar"></i></div>
+      <p class="meter__l" id="d-packcount"></p>
+    </div>
+
+    <div class="wrap">
+      <div class="pager" id="d-pager"></div>
+    </div>
+  </section>
+
+  <!-- ============================ CARTE ============================ -->
+  <section class="view" id="v-carte" aria-labelledby="h-carte">
+    <div class="wrap sec">
+      <h2 class="sec__t">Tous les lieux</h2>
+      <h1 class="h-lg" id="h-carte">Carte</h1>
+      <p class="lead" style="margin-top:12px">L’itinéraire Algarve → Lisbonne → Porto et chaque lieu du voyage. Touchez un point pour la fiche et l’itinéraire.</p>
+      <div class="filters" id="map-filters" style="margin-top:24px"></div>
+      <div class="mapfr"><div id="map" role="application" aria-label="Carte des lieux du voyage"></div></div>
+      <div class="filters" id="map-cats" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <!-- ============================ RÉSERVATIONS ============================ -->
+  <section class="view" id="v-reservations" aria-labelledby="h-bk">
+    <div class="wrap sec">
+      <h2 class="sec__t">À caler avant le départ</h2>
+      <h1 class="h-lg" id="h-bk">Réservations</h1>
+      <p class="lead" style="margin-top:12px">Touchez un statut pour le faire passer de « à réserver » à « en attente » puis « confirmé ». L’état reste enregistré sur cet appareil.</p>
+      <div class="bkstats" id="bk-stats" style="margin-top:24px"></div>
+      <div class="bk" id="bk-list"></div>
+    </div>
+  </section>
+
+  <!-- ============================ INFOS ============================ -->
+  <section class="view" id="v-infos" aria-labelledby="h-infos">
+    <div class="wrap sec">
+      <h2 class="sec__t">Pratique</h2>
+      <h1 class="h-lg" id="h-infos">Infos</h1>
+      <div id="infos-list" style="margin-top:24px"></div>
+
+      <h2 class="sec__t" style="margin-top:48px">Checklist générale</h2>
+      <ul class="check" id="gen-check"></ul>
+      <div class="meter"><i id="gen-bar"></i></div>
+      <p class="meter__l" id="gen-count"></p>
+
+      <h2 class="sec__t" style="margin-top:48px">À confirmer</h2>
+      <div class="tcf" id="tcf"></div>
+
+      <div class="foot">
+        <p>Portugal Family Trip 2026 · carnet privé · 9 → 20 août</p>
+        <p>Photos : <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, licences libres. Carte : <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">Leaflet</a> et <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>.</p>
+        <p>Toutes les informations marquées « À confirmer » n’ont pas été vérifiées sur une source officielle.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script>
+/*__DATA__*/
+</script>
+<script>
+/*__APP__*/
+</script>
+</body>
+</html>
