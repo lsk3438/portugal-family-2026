@@ -17,11 +17,16 @@ Cinq onglets, pensés pour le téléphone :
 
 Fonctionne hors connexion pour l'interface une fois la page chargée ; les photos, la carte et les polices ont besoin du réseau. Installable sur l'écran d'accueil (manifeste web inclus).
 
-## Lancer le site en local
+## Les deux formes du site
 
-Le site est un fichier unique. Il suffit d'ouvrir `index.html` dans un navigateur.
+`node build.mjs` produit deux choses à partir des mêmes sources :
 
-Pour un rendu strictement identique à la production (la carte et les polices se chargent mieux via HTTP) :
+| Fichier | À quoi il sert |
+|---|---|
+| `index.html` (racine, 9 Ko) | Page légère qui charge `src/style.css`, `src/images.js`, `src/trip.js`, `src/app.js`. **C'est cette version que sert GitHub Pages.** Elle a besoin d'être servie en HTTP, pas ouverte depuis le disque. |
+| `public/index.html` (174 Ko) | Le site entier en un seul fichier, tout en ligne. À envoyer par message, à ouvrir directement depuis le téléphone, ou à déployer sur Vercel. |
+
+Pour tester la version éclatée en local :
 
 ```bash
 python3 -m http.server 8000
@@ -30,17 +35,19 @@ python3 -m http.server 8000
 
 ## Mise en ligne — GitHub Pages
 
-C'est la méthode retenue. Le dépôt ne contient que les sources ; le fichier `.github/workflows/pages.yml` lance `node build.mjs` à chaque `git push` sur `main`, puis publie le dossier `public/`.
+Pas de GitHub Actions, pas de build à distance : le dépôt contient déjà `index.html` et les fichiers `src/` qu'il charge, GitHub les sert tels quels.
 
 **Réglage à faire une seule fois**
 
 1. Le dépôt doit être **public** : *Settings → General → Danger Zone → Change repository visibility*. GitHub Pages n'est pas disponible sur les dépôts privés du plan gratuit.
-2. *Settings → Pages → Build and deployment → Source* : choisir **GitHub Actions** (et non « Deploy from a branch »).
-3. Onglet *Actions* : le workflow « Déploiement GitHub Pages » se lance. Au bout d'une à deux minutes, l'adresse apparaît dans *Settings → Pages*.
+2. *Settings → Pages → Build and deployment → Source* : **Deploy from a branch**, branche `main`, dossier `/ (root)`, puis *Save*.
+3. Recharger la page au bout d'une minute : l'adresse s'affiche en haut.
 
 Adresse finale : `https://lsk3438.github.io/portugal-family-2026/`
 
-Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule.
+Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule. Après avoir touché à `src/trip.js`, relancer `node build.mjs` avant de pousser — c'est lui qui régénère `src/images.js` et l'`index.html` de la racine.
+
+Le fichier `.nojekyll` désactive le préprocesseur Jekyll de GitHub, qui n'a rien à faire ici.
 
 **Alternative : Vercel**
 
@@ -54,11 +61,10 @@ Horaires, textes, lieux, adresses, téléphones, liens, réservations, checklist
 
 ```bash
 # après n'importe quelle modification
-node build.mjs     # génère public/index.html — c'est ce que lance GitHub Pages
-python3 build.py   # équivalent en Python, génère index.html à la racine
+node build.mjs
 ```
 
-Les deux scripts produisent le même site ; seul `build.mjs` est utilisé par le déploiement automatique.
+`build.mjs` régénère `index.html`, `src/images.js` et `public/index.html`. `build.py` fait la même chose en Python pour qui n'a pas Node, mais ne produit que `public/index.html` — il ne suffit pas pour mettre à jour GitHub Pages.
 
 ### Conventions du fichier de données
 
@@ -86,17 +92,18 @@ Pour la photo, ajouter une entrée dans `src/images.json` avec une URL Wikimedia
 ## Structure
 
 ```
-├── .github/workflows/
-│   └── pages.yml           ← construit et publie le site sur GitHub Pages
-├── build.mjs               ← assemble les sources en public/index.html
-├── build.py                ← même chose en Python, sort index.html à la racine
+├── index.html              ← page servie par GitHub Pages (générée)
+├── .nojekyll               ← désactive Jekyll côté GitHub
+├── build.mjs               ← génère index.html, src/images.js et public/index.html
+├── build.py                ← équivalent Python, ne génère que public/index.html
 ├── vercel.json             ← config de secours pour un hébergement Vercel
 └── src/
     ├── trip.js             ← TOUTES les données du voyage
     ├── app.js              ← logique : routeur, compte à rebours, carte, favoris
     ├── style.css           ← direction artistique
     ├── index.template.html ← structure de la page
-    └── images.json         ← URLs des photos Wikimedia
+    ├── images.json         ← URLs des photos Wikimedia
+    └── images.js           ← images.json enveloppé pour le navigateur (généré)
 ```
 
 ## Confidentialité
