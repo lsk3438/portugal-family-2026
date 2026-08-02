@@ -7,10 +7,11 @@ import { $, $$, REDUCED, esc } from '../core/dom.js';
 import { I, CAT_LABEL } from '../core/icons.js';
 import { store, save } from '../core/store.js';
 import { TRIP } from '../../../data/trip.js';
-import { img, legOfDay, dayByN, placeOf, field, setAccent, placeThumb } from '../core/helpers.js';
+import { img, legOfDay, dayByN, placeOf, setAccent, placeThumb } from '../core/helpers.js';
 import { go } from '../core/router.js';
 import { observe } from '../features/reveal.js';
 import { wxFill } from '../features/weather.js';
+import { rows, missing, links } from '../features/details.js';
 
 /* ======================================================================
    JOURNÉE
@@ -31,13 +32,14 @@ export function stopDay(){
 export function placeBlock(k){
   const p = placeOf(k); if(!p) return '';
 
-  /* Vue compacte : la photo, le nom, la cuisine, deux lignes de description,
-     puis les trois gestes utiles sur place. Tout le reste — horaires, tarifs,
-     conseils, liens — est dans la fiche « Détails ». */
-  const acts = [];
-  acts.push(`<button class="btn btn--p" type="button" data-details="${k}">${I.info}Voir les détails</button>`);
-  if (p.maps) acts.push(`<a class="btn" href="${p.maps}" target="_blank" rel="noopener noreferrer">${I.map}Itinéraire</a>`);
-  if (p.phone && p.phone.ok) acts.push(`<a class="btn" href="tel:${p.phone.v.split('·')[0].replace(/[^+0-9]/g,'')}">${I.phone}Appeler</a>`);
+  /* Fiche complète, directement dans le déroulé de la journée : photo, nom,
+     description, PUIS toutes les informations pratiques — adresse, horaires,
+     tarifs, téléphone — et tous les liens utiles (site officiel ou, à
+     défaut, recherche Tripadvisor, Google Maps, réservation, appel). Rien
+     n'est caché derrière un clic : « Voir le récit » n'ouvre qu'un
+     complément — d'autres photos, le récit du lieu, les moments du séjour
+     où on le retrouve — jamais une information qui devrait déjà être là. */
+  const acts = links(k, p) + `<button class="btn" type="button" data-details="${k}">${I.info}Voir le récit</button>`;
 
   return `<div class="place">
     <div class="place__top">
@@ -49,8 +51,10 @@ export function placeBlock(k){
         <p class="place__d">${esc(p.desc)}</p>
       </div>
     </div>
+    <div class="place__rows">${rows(p)}</div>
     ${p.warn ? `<div class="place__warn">${I.warn}<span>${esc(p.warn)}</span></div>` : ''}
-    <div class="place__acts">${acts.join('')}</div>
+    ${missing(p)}
+    <div class="place__acts">${acts}</div>
   </div>`;
 }
 

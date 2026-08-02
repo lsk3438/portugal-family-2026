@@ -32,12 +32,12 @@ p{ margin:0 0 1em; }
 .azulejo{
   position:fixed; inset:-8% 0 -8% 0; z-index:-3; pointer-events:none;
   background-color:var(--accent);
-  opacity:.13;
+  opacity:.24;
   -webkit-mask-image:var(--az); mask-image:var(--az);
   -webkit-mask-size:132px 132px; mask-size:132px 132px;
   -webkit-mask-repeat:repeat; mask-repeat:repeat;
   transform:translate3d(0, var(--az-y, 0px), 0);
-  animation:azDrift 90s linear infinite, azBreathe 26s ease-in-out infinite;
+  animation:azDrift 46s linear infinite, azBreathe 14s ease-in-out infinite;
   transition:background-color 700ms var(--e);
   will-change:transform;
 }
@@ -47,23 +47,24 @@ p{ margin:0 0 1em; }
 @keyframes azDrift{ to{ -webkit-mask-position:132px 264px; mask-position:132px 264px; } }
 /* Respiration lente : la lumière du motif monte et descend, comme un carrelage
    que le soleil traverse. Deux animations combinées — l'une déplace, l'autre
-   éclaire — suffisent à donner l'impression d'un fond vivant. */
-@keyframes azBreathe{ 0%,100%{ opacity:.10; } 50%{ opacity:.17; } }
+   éclaire — suffisent à donner l'impression d'un fond vivant. Amplitude et
+   vitesse relevées : le mouvement doit se remarquer, pas juste se deviner. */
+@keyframes azBreathe{ 0%,100%{ opacity:.17; } 50%{ opacity:.30; } }
 
 /* Halo mouvant, pour la profondeur. Il ne touche jamais le texte : il est
    posé derrière tout le contenu et reste très diffus. */
 .azulejo::after{
   content:''; position:absolute; inset:-20%;
-  background:radial-gradient(60% 45% at 50% 40%, rgba(255,255,255,.55), transparent 70%);
-  animation:azHalo 34s ease-in-out infinite alternate;
+  background:radial-gradient(60% 45% at 50% 40%, rgba(255,255,255,.7), transparent 68%);
+  animation:azHalo 20s ease-in-out infinite alternate;
   pointer-events:none;
 }
 @keyframes azHalo{
-  from{ transform:translate3d(-8%, -4%, 0) scale(1); }
-  to  { transform:translate3d(8%, 6%, 0) scale(1.15); }
+  from{ transform:translate3d(-12%, -7%, 0) scale(1); }
+  to  { transform:translate3d(12%, 9%, 0) scale(1.22); }
 }
 @media (prefers-reduced-motion:reduce){
-  .azulejo{ animation:none; transform:none; opacity:.12; }
+  .azulejo{ animation:none; transform:none; opacity:.2; }
   .azulejo::after{ animation:none; }
 }
 

@@ -9,7 +9,6 @@
 import { LEGS }      from './legs.js';
 import { PLACES }    from './places.js';
 import { DAYS }      from './days.js';
-import { BOOKINGS }  from './bookings.js';
 import { INFOS, TO_CONFIRM } from './infos.js';
 
 export const TRIP = {
@@ -27,7 +26,6 @@ export const TRIP = {
   legs:      LEGS,
   places:    PLACES,
   days:      DAYS,
-  bookings:  BOOKINGS,
   infos:     INFOS,
   toConfirm: TO_CONFIRM
 };

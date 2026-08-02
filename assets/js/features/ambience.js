@@ -27,7 +27,7 @@
 import { $, REDUCED } from '../core/dom.js';
 
 const KEY = 'pt.amb';
-const VOLUME = 0.22;
+const VOLUME = 0.5;
 
 export const PISTE = {
   titre:   'Chiado',
@@ -246,11 +246,16 @@ export function wireAmbiance(){
   start().then(ok => {
     playing = ok;
     if (ok){ refleter(btn); return; }
+    /* Le premier geste peut être un clic, mais aussi un simple défilement ou
+       une touche pressée — sur téléphone, beaucoup de monde fait défiler la
+       page avant de toucher quoi que ce soit. Le premier de ces gestes,
+       lequel qu'il soit, déclenche la musique. */
     const auPremierGeste = () => {
       if (playing) return;
       start().then(k => { playing = k; refleter(btn); btn.classList.remove('pulse'); });
     };
-    document.addEventListener('pointerdown', auPremierGeste, { once:true });
+    const gestes = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'];
+    gestes.forEach(ev => document.addEventListener(ev, auPremierGeste, { once:true, passive:true }));
     if (!REDUCED) setTimeout(() => { if (!playing) btn.classList.add('pulse'); }, 1400);
   });
 }

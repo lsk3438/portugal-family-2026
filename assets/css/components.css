@@ -234,11 +234,12 @@
   .place__i{ grid-area:info; padding:var(--s4) 0 var(--s4) var(--s4); }
   .place__n{ font-size:18px; }
 }
-.place__rows{ border-top:1px solid var(--line); }
-.place__row{ display:flex; gap:var(--s3); padding:11px var(--s4); font-size:14px; border-bottom:1px solid var(--line); align-items:flex-start; }
-.place__row:last-child{ border-bottom:0; }
-.place__row b{ flex:none; width:82px; font-weight:600; color:var(--ink-3); font-size:12.5px; letter-spacing:.04em; text-transform:uppercase; padding-top:2px; }
-.place__row span{ min-width:0; color:var(--ink-2); }
+/* Les lignes d'informations pratiques (adresse, horaires, tarifs…) sont
+   celles de la fiche Détails (classes .dt__row, réutilisées telles quelles) :
+   elles vivent maintenant directement dans la fiche jour, pas seulement
+   dans le panneau. .place__rows leur donne juste le cadre de la carte. */
+.place__rows{ border-top:1px solid var(--line); background:var(--white); }
+.place__rows .dt__row{ padding:11px var(--s4) 13px; }
 .tbc{ color:var(--gold); font-weight:600; font-style:italic; }
 .place__warn{ display:flex; gap:10px; padding:11px var(--s4); background:#FBF3E4; font-size:13.5px; color:#6B4E14; border-top:1px solid var(--line); }
 .place__warn svg{ width:16px; height:16px; flex:none; margin-top:2px; }
@@ -308,28 +309,6 @@
 .pop p{ font-size:12.5px; color:var(--ink-2); margin:0 0 9px; line-height:1.45; }
 .pop a{ font-size:12.5px; font-weight:600; text-decoration:none; color:var(--atlantic); }
 
-/* =============================================================  RÉSERVATIONS */
-.bk{ display:grid; gap:var(--s3); }
-.bkcard{ background:var(--white); border:1px solid var(--line); border-radius:var(--r-m); overflow:hidden; box-shadow:var(--sh-1); }
-.bkcard__h{ display:flex; align-items:flex-start; gap:var(--s3); padding:var(--s4); }
-.bkcard__i{ flex:1; min-width:0; }
-.bkcard h4{ font-size:16.5px; margin-bottom:3px; }
-.bkcard__m{ font-size:12.5px; color:var(--ink-3); }
-.st{
-  flex:none; display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:var(--r-p);
-  font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; border:1px solid;
-}
-.st svg{ width:12px; height:12px; }
-.st--todo{ color:#8A3D14; border-color:#E0BFA4; background:#FBEFE4; }
-.st--pending{ color:#7A5C10; border-color:#E2CE9C; background:#FBF4E0; }
-.st--done{ color:#3E5330; border-color:#BACBA8; background:#EFF4E9; }
-.bkcard__n{ padding:0 var(--s4) var(--s4); font-size:14px; color:var(--ink-2); }
-.bkcard__a{ display:flex; flex-wrap:wrap; gap:var(--s2); padding:0 var(--s4) var(--s4); }
-.bkstats{ display:flex; gap:var(--s4); flex-wrap:wrap; margin-bottom:var(--s5); }
-.bkstat{ flex:1; min-width:96px; background:var(--white); border:1px solid var(--line); border-radius:var(--r-m); padding:var(--s4); }
-.bkstat b{ display:block; font-family:var(--f-display); font-size:32px; font-weight:600; line-height:1; }
-.bkstat span{ font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); }
-
 /* =============================================================  INFOS */
 .info{ background:var(--white); border:1px solid var(--line); border-radius:var(--r-m); overflow:hidden; margin-bottom:var(--s4); }
 .info__h{ display:flex; align-items:center; gap:var(--s3); padding:var(--s4); border-bottom:1px solid var(--line); }
@@ -377,7 +356,9 @@
   background:linear-gradient(180deg, rgba(9,14,20,.34) 0%, rgba(9,14,20,.24) 38%, rgba(9,14,20,.86) 100%);
 }
 .legcard__b{ text-shadow:0 1px 14px rgba(9,14,20,.6); }
-.legcard__n{ color:#fff; }
+/* La couleur de région (--lc-l, posée en style inline sur chaque carte) doit
+   rester visible : c'est elle qui distingue Algarve/Lisbonne/Porto au premier
+   coup d'œil. Un `color:#fff` ici l'écrasait entièrement — régression corrigée. */
 
 /* ============================================  MÉTÉO */
 .wx{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }

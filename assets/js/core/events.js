@@ -10,9 +10,7 @@ import { setAccent } from './helpers.js';
 import { route } from './router.js';
 import { packKey, doneKey, packRefresh } from '../views/day.js';
 import { renderProgramme, setProgFilter } from '../views/programme.js';
-import { renderBookings, bookingStates, NEXT_ST, ST_LABEL } from '../views/bookings.js';
 import { mapReady, refreshMapSize, showLeg, setMapCat } from '../views/map.js';
-import { TRIP } from '../../../data/trip.js';
 import { openDetails, closeDetails, detailsOpen } from '../features/details.js';
 
 /* ======================================================================
@@ -42,15 +40,6 @@ export function wire(){
       dn.setAttribute('aria-pressed', String(!!s[i]));
       $('span', dn).textContent = s[i] ? 'Fait' : 'Marquer comme fait';
       dn.closest('.step').classList.toggle('done', !!s[i]);
-      return;
-    }
-    // statut de réservation
-    const bk = e.target.closest('[data-bk]');
-    if (bk){
-      const i = +bk.dataset.bk; const st = bookingStates();
-      const cur = st[i] || TRIP.bookings[i].status;
-      st[i] = NEXT_ST[cur]; save('pt.bk', st);
-      renderBookings(); toast('Statut : ' + ST_LABEL[st[i]]);
       return;
     }
     // filtres programme

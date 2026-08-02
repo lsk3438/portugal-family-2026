@@ -30,7 +30,7 @@ const EXPECTED = [
   ['tips',    'Conseils']
 ];
 
-function rows(p){
+export function rows(p){
   const out = [`<div class="dt__row"><b>Adresse</b><span>${field(p.address)}</span></div>`];
   if (!(p.url && p.url.ok))
     out.push(`<div class="dt__row"><b>Site officiel</b><span>${tbc}</span></div>`);
@@ -41,7 +41,7 @@ function rows(p){
   return out.join('');
 }
 
-function missing(p){
+export function missing(p){
   const m = EXPECTED.filter(([k]) => p[k] === undefined).map(([, label]) => label);
   if (!m.length) return '';
   return `<div class="dt__todo">${I.info}<span><b>Reste à compléter :</b> ${esc(m.join(' · '))}.
@@ -50,7 +50,7 @@ function missing(p){
 
 /* Les liens, dans l'ordre d'utilité. Aucun bouton n'est jamais vide : si le
    lien manque, on affiche « Lien à confirmer » à la place. */
-function links(key, p){
+export function links(key, p){
   const a = [];
   if (p.book && p.book.ok)
     a.push(`<a class="btn btn--p" href="${p.book.v}" target="_blank" rel="noopener noreferrer">${I.ticket}Réserver</a>`);
@@ -92,6 +92,11 @@ function whenHTML(key){
   ).join('');
 }
 
+/* La fiche jour (day.js) affiche déjà toutes les informations pratiques —
+   adresse, horaires, tarifs, téléphone — directement, sans les cacher
+   derrière un clic. Ce panneau n'ajoute donc plus les mêmes lignes : il
+   apporte le récit du lieu, ses autres photos et les moments du séjour où
+   on le retrouve. « Voir le récit » n'a jamais retiré d'information. */
 export function openDetails(key){
   const p = placeOf(key); if (!p) return;
   const leg = legOfPlace(key);
@@ -116,9 +121,6 @@ export function openDetails(key){
         <p class="dt__desc">${esc(p.desc)}</p>
         ${gallery(p)}
         ${whenHTML(key)}
-        <div class="dt__rows">${rows(p)}</div>
-        ${p.warn ? `<div class="place__warn">${I.warn}<span>${esc(p.warn)}</span></div>` : ''}
-        ${missing(p)}
       </div>
       <div class="dt__acts">${links(key, p)}</div>
     </div>`;

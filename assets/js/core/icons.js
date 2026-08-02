@@ -40,7 +40,8 @@ export const I = {
   wxCloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H7a4 4 0 0 1 0-8 5.4 5.4 0 0 1 10.3 1.3 3.4 3.4 0 0 1 .2 6.7Z"/></svg>',
   wxRain:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.3 15.6H7a3.8 3.8 0 0 1 0-7.6 5.2 5.2 0 0 1 9.9 1.3 3.2 3.2 0 0 1 .4 6.3Z"/><path d="M9 19l-.8 2M13 19l-.8 2M17 19l-.8 2"/></svg>',
   wxStorm:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17.3 14.6H7a3.8 3.8 0 0 1 0-7.6 5.2 5.2 0 0 1 9.9 1.3 3.2 3.2 0 0 1 .4 6.3Z"/><path d="m12.5 17-2.2 3.2h3L11 23.4"/></svg>',
-  music: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></svg>'
+  music: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5.5l11-2V16"/><circle cx="6.5" cy="18" r="2.6"/><circle cx="17.5" cy="16" r="2.6"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.6 20a6.4 6.4 0 0 1 12.8 0"/><circle cx="17.3" cy="9" r="2.6"/><path d="M15 13.3a5.4 5.4 0 0 1 6.4 5.7"/></svg>'
 };
 export const CAT_ICON = { logement: I.home, activite: I.visite, plage: I.plage, restaurant: I.repas, courses: I.courses, monument: I.visite, parking: I.car, transport: I.car };
 export const CAT_LABEL = { logement:'Logement', activite:'Activité', plage:'Plage', restaurant:'Restaurant', courses:'Courses', monument:'Monument', parking:'Parking', transport:'Transport' };

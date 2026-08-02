@@ -10,9 +10,9 @@ Cinq onglets, pensés pour le téléphone :
 | Onglet | Contenu |
 |---|---|
 | **Accueil** | Compte à rebours jusqu'au 9 août 2026 à 09h00 heure du Portugal, journée en cours, bandeau du jour (météo, coucher du soleil, route, nombre de lieux), progression Algarve → Lisbonne → Porto, les trois étapes |
-| **Programme** | Les 12 journées, filtrables par étape, chacune ouvrable en détail : bandeau photo, déroulé horaire, fiches de lieux, « à prévoir aujourd'hui » |
+| **Programme** | Les 12 journées, filtrables par étape, chacune ouvrable en détail : bandeau photo, déroulé horaire, fiches de lieux — adresse, horaires, tarifs, téléphone et liens visibles directement, sans clic — « à prévoir aujourd'hui » |
 | **Carte** | Tous les lieux épinglés, filtrables par étape et par catégorie, itinéraire général, lien Google Maps sur chaque point |
-| **Réservations** | Les 17 réservations à faire, avec statut cliquable : à réserver → en attente → confirmé |
+| **Participants** | Les neuf voyageurs du séjour |
 | **Infos** | Logements, voitures, transports, urgences, documents, météo et la liste complète de ce qui reste à confirmer |
 
 Fonctionne hors connexion pour l'interface une fois la page chargée ; les photos, la carte et les polices ont besoin du réseau. Installable sur l'écran d'accueil (manifeste web inclus).
@@ -23,8 +23,8 @@ Fonctionne hors connexion pour l'interface une fois la page chargée ; les photo
 - **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité respirante entre 10 et 17 %, halo mouvant, parallaxe au défilement. Tout se coupe si le système demande moins d'animations.
 - **Bandeau d'ouverture** : douze photographies libres de droits, quatre par région, en fondu de sept secondes. Seule la première part avec la page ; les suivantes sont préchargées une par une, et la couleur d'accent du site suit la région affichée.
 - **Ambiance sonore** : « Chiado » de Jahzzar, CC BY-SA 3.0, avec repli sur une ambiance synthétisée en Web Audio si le fichier ne se charge pas. Démarrage automatique tenté, puis au premier geste — les navigateurs mobiles refusent toujours le premier.
-- **Fiches Détails** : un panneau plein écran par lieu, avec grande image, informations pratiques et tous les liens. Les rubriques non vérifiées ne sont pas inventées : elles sont listées dans « Reste à compléter ».
-- **Vignettes dessinées** : les onze lieux sans photographie libre — les restaurants, pour l'essentiel — reçoivent un carreau azulejo à la couleur de leur région avec l'initiale du nom.
+- **Fiches Détails** : « Voir le récit » ouvre un panneau plein écran avec une grande photo, d'autres images du lieu et les moments du séjour où il revient — un complément, jamais un endroit où cacher une information. Adresse, horaires, tarifs, téléphone et liens restent affichés directement sur la fiche du jour, sans clic supplémentaire. Les rubriques non vérifiées ne sont pas inventées : elles sont listées dans « Reste à compléter ».
+- **Photos des restaurants** : dix restaurants sans site officiel ni photo Wikimedia utilisent une photo reprise de leur fiche Tripadvisor, à la demande explicite du foyer — ce ne sont pas des images sous licence libre, seulement les seules disponibles pour ces adresses ; le risque est assumé pour un usage privé, non indexé. Un onzième lieu (ALDI Quarteira) reste sans photo et reçoit une vignette dessinée.
 - **Micro-interactions** : élévation et bordure teintée au survol (souris uniquement), enfoncement au doigt sur téléphone.
 
 ## Architecture
@@ -42,8 +42,7 @@ portugal-family-2026/
 │   ├── trip.js             ← métadonnées + recomposition de l'objet TRIP
 │   ├── legs.js             ← les trois étapes et leurs couleurs
 │   ├── days.js             ← les douze journées
-│   ├── places.js           ← les 51 lieux (adresses, tél., horaires, tarifs)
-│   ├── bookings.js         ← les réservations
+│   ├── places.js           ← les 52 lieux (adresses, tél., horaires, tarifs)
 │   ├── infos.js            ← infos pratiques + « à confirmer »
 │   ├── images.js           ← URLs des photos Wikimedia
 │   ├── hero.js             ← les douze médias du bandeau d'accueil
@@ -64,7 +63,7 @@ portugal-family-2026/
         ├── core/           ← dom · icons · store · toast · helpers · router · events
         ├── features/       ← countdown · weather · ambience · reveal
         │                     details · heroreel
-        └── views/          ← home · programme · day · map · bookings · infos
+        └── views/          ← home · programme · day · map · participants · infos
 ```
 
 **Modules ES natifs.** Chaque fichier déclare ce dont il a besoin avec `import` et ce qu'il offre avec `export`. Aucun ordre de balises `<script>` à respecter, aucune variable globale, aucune étape de compilation pour mettre le site en ligne : le navigateur résout les dépendances tout seul.
@@ -148,7 +147,7 @@ Ces informations sont utiles dans le site et n'ont rien à faire sur un dépôt 
 
 ## Crédits
 
-Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres. Les crédits exacts des douze photos du bandeau d'accueil sont dans `data/hero.js` et s'affichent sous chaque image.
+Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres. Les crédits exacts des douze photos du bandeau d'accueil sont dans `data/hero.js` et s'affichent sous chaque image. Dix photos de restaurants viennent de leur fiche Tripadvisor respective (voir « Photos des restaurants » plus haut) — ce ne sont pas des images sous licence libre.
 
 Musique : « Chiado », de [Jahzzar](https://archive.org/details/Paris_Lisboa-11367), album « Paris, Lisboa », sous licence CC BY-SA 3.0. **L'attribution affichée dans le pied de page est exigée par la licence : la retirer rendrait l'usage illicite.** Pour utiliser un autre morceau, déposer le fichier dans `assets/audio/ambiance.mp3` — il est essayé en premier.
 Carte : [Leaflet](https://leafletjs.com/) et fonds [OpenStreetMap](https://www.openstreetmap.org/copyright).

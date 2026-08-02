@@ -1,6 +1,6 @@
 /* ====================================================================
    Routeur par ancre : #/accueil, #/programme, #/jour/N, #/carte,
-   #/reservations, #/infos. Chaque vue est rendue à la demande.
+   #/participants, #/infos. Chaque vue est rendue à la demande.
    ==================================================================== */
 
 import { $, $$ } from './dom.js';
@@ -13,7 +13,7 @@ import { stopHeroReel } from '../features/heroreel.js';
 import { renderProgramme, progFilter, setProgFilter } from '../views/programme.js';
 import { renderDay, stopDay } from '../views/day.js';
 import { renderMap } from '../views/map.js';
-import { renderBookings } from '../views/bookings.js';
+import { renderParticipants } from '../views/participants.js';
 import { renderInfos } from '../views/infos.js';
 
 /* ======================================================================
@@ -23,7 +23,7 @@ export const TABS = [
   { id:'accueil', label:'Accueil', icon:'home' },
   { id:'programme', label:'Programme', icon:'cal' },
   { id:'carte', label:'Carte', icon:'map' },
-  { id:'reservations', label:'Réserv.', icon:'ticket' },
+  { id:'participants', label:'Participants', icon:'users' },
   { id:'infos', label:'Infos', icon:'info' }
 ];
 export const go = h => { location.hash = h; };
@@ -56,7 +56,7 @@ export function route(){
 
   if (view === 'accueil'){ setAccent(null); renderHome(); startCountdown(); renderProgress(); }
   if (view === 'programme'){ setAccent(progFilter === 'all' ? null : progFilter); renderProgramme(); }
-  if (view === 'reservations'){ setAccent(null); renderBookings(); }
+  if (view === 'participants'){ setAccent(null); renderParticipants(); }
   if (view === 'infos'){ setAccent(null); renderInfos(); }
   show(view); renderTabs(view);
   if (view === 'carte'){ setAccent(null); setTimeout(renderMap, 30); }

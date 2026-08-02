@@ -52,7 +52,7 @@ export function wxFetch(leg){
     });
     WX[leg.id] = out;
     return out;
-  }).catch(() => { WX[leg.id] = {}; return {}; });
+  }).catch(() => { WX[leg.id] = { __error: true }; return WX[leg.id]; });
 }
 export function wxHTML(w, muted){
   if (!w) return '';
@@ -65,6 +65,14 @@ export function wxTile(w){
   return wxIcon(w.code) + '<span class="fact__v"><b>' + w.max + '°</b><small>' +
     wxLabel(w.code) + ', ' + w.min + '° la nuit</small></span>';
 }
+/** Le service ne répond pas (réseau coupé, requête refusée…) : un message
+    visible vaut mieux qu'un silence qu'on croirait être un bug. */
+function wxFailHTML(muted){
+  return '<span class="wx wx--muted' + (muted ? '' : '') + '">' + I.warn + '<small>Météo indisponible</small></span>';
+}
+function wxFailTile(){
+  return I.warn + '<span class="fact__v"><b>—</b><small>Météo indisponible</small></span>';
+}
 /** Remplit tous les emplacements [data-wx="AAAA-MM-JJ"] visibles. */
 export function wxFill(muted){
   const slots = $$('[data-wx]');
@@ -76,8 +84,14 @@ export function wxFill(muted){
   });
   Object.values(legs).forEach(leg => wxFetch(leg).then(map => {
     $$('[data-wx]').forEach(el => {
+      if (el.dataset.filled) return;
       const w = map[el.dataset.wx];
-      if (!w || el.dataset.filled) return;
+      if (map.__error){
+        el.innerHTML = el.dataset.wxfmt === 'tile' ? wxFailTile() : wxFailHTML(muted);
+        el.dataset.filled = '1';
+        return;
+      }
+      if (!w) return;
       el.innerHTML = el.dataset.wxfmt === 'tile' ? wxTile(w) : wxHTML(w, muted);
       el.dataset.filled = '1';
     });

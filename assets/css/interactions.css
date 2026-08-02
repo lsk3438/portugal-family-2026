@@ -13,16 +13,15 @@
   .daycard__img img{ transition:transform 900ms var(--e-out); }
   .next:hover{ box-shadow:var(--sh-3), inset 0 0 0 1px var(--accent); }
   .legcard:hover{ box-shadow:var(--sh-2), 0 0 0 1px var(--lc); }
-  .bkcard:hover{ border-color:var(--accent); }
   .fact:hover svg{ transform:scale(1.12); }
   .fact svg{ transition:transform var(--t) var(--e-out), color 700ms var(--e); }
 }
 
-.next, .legcard, .daycard, .bkcard, .pager a, .place, .chip, .btn,
+.next, .legcard, .daycard, .pager a, .place, .chip, .btn,
 .filters button, .tab, .amb, .check label{
   -webkit-tap-highlight-color:transparent;
 }
-.next:active, .legcard:active, .daycard:active, .bkcard:active, .pager a:active{
+.next:active, .legcard:active, .daycard:active, .pager a:active{
   transform:scale(.986); box-shadow:var(--sh-1);
 }
 .daycard:active{ border-color:var(--dc); }
@@ -38,7 +37,7 @@
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
   .reveal{ opacity:1; transform:none; }
-  .next:active, .legcard:active, .daycard:active, .bkcard:active, .pager a:active,
+  .next:active, .legcard:active, .daycard:active, .pager a:active,
   .btn:active, .filters button:active, .chip:active, .tab:active{ transform:none; }
 }
 @media print{ .tabs,.top,.dbar{ display:none !important; } body{ background:#fff; padding:0; } body::after{ display:none; } }

@@ -28,7 +28,6 @@
   .step__dot{ left:-48px; width:30px; height:30px; }
   .step__card{ padding:var(--s3) var(--s4); }
   .pager{ grid-template-columns:1fr; }
-  .place__row{ display:block; padding:10px var(--s4) 12px; }
-  .place__row b{ display:block; width:auto; font-size:10.5px; letter-spacing:.12em; padding:0 0 2px; }
+  .place__rows .dt__row{ padding:10px var(--s4) 12px; }
   #map{ height:62vh; }
 }
