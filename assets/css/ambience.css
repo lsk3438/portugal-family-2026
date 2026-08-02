@@ -1,0 +1,48 @@
+/* ======================================================================
+   BOUTON D'AMBIANCE SONORE — flottant, teinté par la région, il pulse
+   trois fois à l'arrivée puis se tait.
+   ====================================================================== */
+
+/* ============================================  AMBIANCE SONORE
+   Bouton flottant discret, teinté par la région en cours. Il pulse quelques
+   secondes à la première visite puis se tait : rien ne sort des haut-parleurs
+   tant que personne n'a appuyé. */
+.amb{
+  position:fixed; z-index:75;
+  right:calc(14px + env(safe-area-inset-right));
+  bottom:calc(var(--nav-h) + 14px + env(safe-area-inset-bottom));
+  width:50px; height:50px; padding:0; border-radius:var(--r-p);
+  display:grid; place-items:center;
+  border:1px solid rgba(255,255,255,.5);
+  background:color-mix(in srgb, var(--accent) 88%, #000 0%);
+  color:#fff;
+  box-shadow:0 2px 6px rgba(20,24,29,.14), 0 14px 34px rgba(20,24,29,.24);
+  backdrop-filter:blur(14px) saturate(1.4); -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  transition:background-color 700ms var(--e), transform 220ms var(--e-out), box-shadow 220ms var(--e);
+}
+.amb:active{ transform:scale(.9); }
+.amb.pulse{ animation:ambPulse 2.4s var(--e-out) 3; }
+@keyframes ambPulse{
+  0%,100%{ box-shadow:0 2px 6px rgba(20,24,29,.14), 0 14px 34px rgba(20,24,29,.24), 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+  55%    { box-shadow:0 2px 6px rgba(20,24,29,.14), 0 14px 34px rgba(20,24,29,.24), 0 0 0 14px color-mix(in srgb, var(--accent) 0%, transparent); }
+}
+/* triangle de lecture, dessiné en CSS pour éviter un SVG de plus */
+.amb__ico{
+  width:0; height:0; margin-left:3px;
+  border-left:13px solid currentColor;
+  border-top:8.5px solid transparent; border-bottom:8.5px solid transparent;
+  transition:opacity 180ms var(--e);
+}
+.amb__eq{ position:absolute; display:none; align-items:flex-end; gap:3px; height:17px; }
+.amb__eq i{ width:3px; border-radius:2px; background:currentColor; animation:ambEq 1.1s var(--e) infinite; }
+.amb__eq i:nth-child(1){ height:7px;  animation-delay:0ms; }
+.amb__eq i:nth-child(2){ height:15px; animation-delay:170ms; }
+.amb__eq i:nth-child(3){ height:10px; animation-delay:340ms; }
+.amb__eq i:nth-child(4){ height:16px; animation-delay:90ms; }
+@keyframes ambEq{ 0%,100%{ transform:scaleY(.35); } 50%{ transform:scaleY(1); } }
+.amb[aria-pressed="true"] .amb__ico{ opacity:0; }
+.amb[aria-pressed="true"] .amb__eq{ display:flex; }
+@media (prefers-reduced-motion:reduce){
+  .amb.pulse{ animation:none; }
+  .amb__eq i{ animation:none; }
+}
