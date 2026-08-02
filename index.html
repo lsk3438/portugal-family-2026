@@ -16,7 +16,7 @@
 <meta property="og:description" content="9 → 20 août 2026 · Algarve, Lisbonne, Porto">
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23123A5A'/%3E%3Ctext x='50' y='69' font-size='54' text-anchor='middle' font-family='Georgia,serif' fill='%23E8B87E'%3EP%3C/text%3E%3C/svg%3E">
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22Portugal%20Family%20Trip%202026%22%2C%22short_name%22%3A%22Portugal%202026%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23FBF8F3%22%2C%22theme_color%22%3A%22%23FBF8F3%22%7D">
+<link rel="manifest" href="manifest.json">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,7 +25,15 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
-<link rel="stylesheet" href="src/style.css">
+<!--__CSS__-->
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+<link rel="stylesheet" href="assets/css/ambience.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" href="assets/css/interactions.css">
+<!--/__CSS__-->
 </head>
 <body>
 
@@ -178,8 +186,8 @@
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
-<script src="src/images.js"></script>
-<script src="src/trip.js"></script>
-<script src="src/app.js"></script>
+<!--__JS__-->
+<script type="module" src="assets/js/main.js"></script>
+<!--/__JS__-->
 </body>
 </html>
