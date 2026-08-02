@@ -1,7 +1,7 @@
 # Portugal Family Trip 2026
 
 Application web du voyage familial au Portugal, du **9 au 20 août 2026** : Algarve, Lisbonne, Porto.
-Pas de connexion, pas de vidéo, pas de compte : le site s'ouvre directement sur l'accueil.
+Pas de connexion, pas de compte : le site s'ouvre directement sur l'accueil.
 
 ## Ce que contient l'application
 
@@ -20,8 +20,11 @@ Fonctionne hors connexion pour l'interface une fois la page chargée ; les photo
 ## Direction artistique
 
 - **Une couleur par région**, appliquée aux bordures, badges, pastilles, boutons et éléments actifs : Algarve bleu Atlantique `#1A6698`, Lisbonne vert `#2F6B4A`, Porto bordeaux `#8E2B3F`. La bascule d'une région à l'autre est animée (`@property` sur `--accent`). Chaque teinte est vérifiée WCAG AA sur le fond papier (5.83 / 5.97 / 7.72).
-- **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité 7,5 %, léger parallaxe au défilement, dérive très lente. Désactivé si le système demande moins d'animations.
-- **Ambiance sonore** : synthétisée dans le navigateur avec l'API Web Audio — ressac de l'Atlantique (bruit brun filtré, amplitude respirante) et corde pincée en mi phrygien. Aucun fichier audio, aucune question de droits. Le son ne démarre jamais seul : le bouton flottant pulse trois fois puis se tait.
+- **Fond azulejo** : un carreau géométrique dessiné en SVG, appliqué en masque pour qu'il prenne la couleur de la région. Fixe, opacité respirante entre 10 et 17 %, halo mouvant, parallaxe au défilement. Tout se coupe si le système demande moins d'animations.
+- **Bandeau d'ouverture** : douze photographies libres de droits, quatre par région, en fondu de sept secondes. Seule la première part avec la page ; les suivantes sont préchargées une par une, et la couleur d'accent du site suit la région affichée.
+- **Ambiance sonore** : « Chiado » de Jahzzar, CC BY-SA 3.0, avec repli sur une ambiance synthétisée en Web Audio si le fichier ne se charge pas. Démarrage automatique tenté, puis au premier geste — les navigateurs mobiles refusent toujours le premier.
+- **Fiches Détails** : un panneau plein écran par lieu, avec grande image, informations pratiques et tous les liens. Les rubriques non vérifiées ne sont pas inventées : elles sont listées dans « Reste à compléter ».
+- **Vignettes dessinées** : les onze lieux sans photographie libre — les restaurants, pour l'essentiel — reçoivent un carreau azulejo à la couleur de leur région avec l'initiale du nom.
 - **Micro-interactions** : élévation et bordure teintée au survol (souris uniquement), enfoncement au doigt sur téléphone.
 
 ## Architecture
@@ -30,7 +33,7 @@ Le projet est découpé comme un vrai projet front : le contenu d'un côté, le 
 
 ```
 portugal-family-2026/
-├── index.html              ← la page, servie telle quelle par GitHub Pages
+├── index.html              ← la page, servie telle quelle par Vercel
 ├── manifest.json           ← installation sur l'écran d'accueil
 ├── package.json            ← esbuild, uniquement pour le fichier unique
 ├── build.mjs               ← replie le site en un seul fichier (public/)
@@ -42,7 +45,9 @@ portugal-family-2026/
 │   ├── places.js           ← les 51 lieux (adresses, tél., horaires, tarifs)
 │   ├── bookings.js         ← les réservations
 │   ├── infos.js            ← infos pratiques + « à confirmer »
-│   └── images.js           ← URLs des photos Wikimedia
+│   ├── images.js           ← URLs des photos Wikimedia
+│   ├── hero.js             ← les douze médias du bandeau d'accueil
+│   └── travellers.js       ← les neuf voyageurs  ⚠ données personnelles
 │
 └── assets/
     ├── icon.svg
@@ -58,6 +63,7 @@ portugal-family-2026/
         ├── main.js         ← point d'entrée : 20 lignes
         ├── core/           ← dom · icons · store · toast · helpers · router · events
         ├── features/       ← countdown · weather · ambience · reveal
+        │                     details · heroreel
         └── views/          ← home · programme · day · map · bookings · infos
 ```
 
@@ -72,7 +78,7 @@ portugal-family-2026/
 | Fichier | À quoi il sert |
 |---|---|
 | `index.html` + `assets/` + `data/` | Le site tel qu'il est servi en ligne. Modules ES : il lui faut un serveur HTTP, il ne s'ouvre pas depuis le disque. |
-| `public/index.html` (187 Ko) | Le site entier replié dans un seul fichier par `node build.mjs`. À envoyer par message, à ouvrir hors connexion, ou à déployer sur Vercel. |
+| `public/index.html` (212 Ko) | Le site entier replié dans un seul fichier par `node build.mjs`. À envoyer par message, ou à ouvrir hors connexion. |
 
 Pour travailler en local :
 
@@ -82,25 +88,20 @@ npm run dev        # sert le dossier sur http://localhost:8000
 npm run build      # régénère public/index.html
 ```
 
-## Mise en ligne — GitHub Pages
+## Mise en ligne — Vercel
 
-Pas de GitHub Actions, pas de build à distance : le dépôt contient déjà `index.html` et les fichiers de `assets/` et `data/` qu'il charge, GitHub les sert tels quels.
+Le dépôt est **privé** : il contient l'adresse du logement et les noms des neuf participants, dont des mineurs. GitHub Pages n'accepte pas les dépôts privés sur le plan gratuit — Vercel si, et gratuitement.
 
-**Réglage à faire une seule fois**
+1. Sur [vercel.com](https://vercel.com), se connecter avec le compte GitHub.
+2. **Add New → Project**, importer `portugal-family-2026`. Autoriser Vercel à lire le dépôt privé.
+3. Ne rien changer : `vercel.json` demande de servir la racine telle quelle, sans build. Aucune variable d'environnement.
+4. **Deploy**. Une minute plus tard, l'adresse en `.vercel.app` est prête à être partagée.
 
-1. Le dépôt doit être **public** : *Settings → General → Danger Zone → Change repository visibility*. GitHub Pages n'est pas disponible sur les dépôts privés du plan gratuit.
-2. *Settings → Pages → Build and deployment → Source* : **Deploy from a branch**, branche `main`, dossier `/ (root)`, puis *Save*.
-3. Recharger la page au bout d'une minute : l'adresse s'affiche en haut.
+Chaque `git push` sur `main` redéploie automatiquement.
 
-Adresse finale : `https://lsk3438.github.io/portugal-family-2026/`
+Le site n'est pas indexé (`noindex, nofollow` en balise et en en-tête HTTP), mais **il reste accessible à qui possède l'adresse**. Ne pas la publier ailleurs que dans la conversation familiale.
 
-Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule.
-
-Le fichier `.nojekyll` désactive le préprocesseur Jekyll de GitHub, qui n'a rien à faire ici.
-
-**Alternative : Vercel**
-
-Le fichier `vercel.json` est conservé au cas où. Il permet d'héberger le site **sans rendre le dépôt public** : sur [vercel.com](https://vercel.com), *Add New → Project*, importer le dépôt, ne rien changer, *Deploy*. `vercel.json` fournit déjà `buildCommand: node build.mjs` et `outputDirectory: public`, et ajoute les en-têtes qui empêchent l'indexation par les moteurs de recherche.
+**Si le dépôt devait redevenir public**, il faudrait d'abord vider `data/travellers.js` et retirer l'adresse exacte de la villa dans `data/places.js`.
 
 ## Modifier le contenu
 
@@ -108,7 +109,7 @@ Le fichier `vercel.json` est conservé au cas où. Il permet d'héberger le site
 
 Horaires, textes, lieux, adresses, téléphones, liens, réservations, infos pratiques : tout est là, et rien de tout cela ne se trouve dans les composants.
 
-Rien à recompiler pour mettre le site en ligne : GitHub Pages sert `data/` directement. `node build.mjs` ne sert qu'à régénérer la version « fichier unique ».
+Rien à recompiler pour mettre le site en ligne : Vercel sert `data/` directement. `node build.mjs` ne sert qu'à régénérer la version « fichier unique ».
 
 ### Conventions des fichiers de données
 
@@ -135,21 +136,20 @@ Pour la photo, ajouter une entrée dans `data/images.js` avec une URL Wikimedia 
 
 ## Confidentialité
 
-La page porte une balise `noindex, nofollow` : elle ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — favoris, listes du jour et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
+La page porte une balise `noindex, nofollow` et Vercel ajoute l'en-tête HTTP correspondant : le site ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — listes du jour et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
 
-**Ce dépôt est public**, condition imposée par GitHub Pages sur le plan gratuit. Concrètement, tout le contenu de `data/` est lisible par n'importe qui sur github.com. Aujourd'hui ce fichier ne contient rien de personnel : les adresses des logements sont en « À confirmer » et les numéros de téléphone sont ceux de restaurants et de monuments, tous publics.
+**Ce dépôt est privé, et doit le rester.** Il contient :
 
-À ne donc **pas** écrire dans `data/` tant que le dépôt est public :
+- l'adresse exacte du logement, à côté des dates où il est occupé ;
+- les noms complets de neuf personnes, dont quatre enfants ;
+- à terme, le code Wi-Fi, le code de porte et les contacts sur place.
 
-- l'adresse exacte des logements, associée aux dates d'absence ;
-- les numéros de téléphone personnels des participants ;
-- les références de vol, de location de voiture, de police d'assurance ;
-- les codes de boîte à clés, les identifiants Wi-Fi.
-
-Ces informations-là se transmettent par message. Si elles doivent figurer dans le site, il faut d'abord repasser le dépôt en privé et l'héberger sur Vercel, qui accepte les dépôts privés gratuitement.
+Ces informations sont utiles dans le site et n'ont rien à faire sur un dépôt public : un commit publié reste dans l'historique même après suppression.
 
 ## Crédits
 
-Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres.
+Photos : [Wikimedia Commons](https://commons.wikimedia.org/), licences libres. Les crédits exacts des douze photos du bandeau d'accueil sont dans `data/hero.js` et s'affichent sous chaque image.
+
+Musique : « Chiado », de [Jahzzar](https://archive.org/details/Paris_Lisboa-11367), album « Paris, Lisboa », sous licence CC BY-SA 3.0. **L'attribution affichée dans le pied de page est exigée par la licence : la retirer rendrait l'usage illicite.** Pour utiliser un autre morceau, déposer le fichier dans `assets/audio/ambiance.mp3` — il est essayé en premier.
 Carte : [Leaflet](https://leafletjs.com/) et fonds [OpenStreetMap](https://www.openstreetmap.org/copyright).
 Typographies : Cormorant Garamond et Inter (Google Fonts).
