@@ -45,7 +45,7 @@ export const PLACES = {
       phone: { v: '+351 289 312 961', ok: true },
       url: { v: 'https://www.visitportugal.com/en/NR/exeres/015A1E9E-D164-49C9-A92E-6E1B6DD0287F', ok: true, label: 'Fiche Turismo de Portugal' },
       hours: { v: '13h00 – 15h00 et 19h00 – 00h00 (fiche non datée)', ok: false },
-      maps: null,
+      maps: 'https://www.google.com/maps/search/?api=1&query=Restaurante%20O%20Cesteiro%2C%20Av.%20Cerro%20da%20Vila%2C%20Edif%C3%ADcio%20Vilamarina%2084%2C%208125-401%20Vilamoura%2C%20Portugal',
       warn: "Pas de site web propre. Horaires issus d’une fiche non datée : appeler pour confirmer et réserver."
     },
     aldi: {
@@ -55,7 +55,7 @@ export const PLACES = {
       phone: { v: null, ok: false },
       url: { v: 'https://www.aldi.pt/lojas-e-horarios/quarteira/avenida-da-fonte-santa-275/6334249.html', ok: true, label: 'Page du magasin' },
       hours: { v: 'Tous les jours 07h30 – 22h30', ok: true },
-      maps: null
+      maps: 'https://www.google.com/maps/search/?api=1&query=ALDI%2C%20Av.%20da%20Fonte%20Santa%20275%2C%208120-020%20Quarteira%2C%20Portugal'
     },
     loule: {
       name: 'Mercado Municipal de Loulé', cat: 'courses', city: 'Loulé', img: 'loule',
@@ -516,5 +516,28 @@ export const PLACES = {
       desc: "Petit bourg au bord du Douro, au cœur des terrasses viticoles, célèbre pour les azulejos de sa gare.",
       address: { v: 'Pinhão, Alijó', ok: true },
       maps: 'https://www.google.com/maps/search/?api=1&query=41.18885,-7.54563'
-    }
-  };
+    },
+
+  /* ------------------------------------------------------------------ LOGEMENT
+     Fiche de la villa. Les champs marqués ok:false sont des emplacements
+     prêts à recevoir l'information : il suffit de remplacer la valeur et de
+     passer ok à true. Rien n'est inventé en attendant. */
+  villa: {
+    name: 'Villa de Quarteira',
+    cat: 'logement',
+    city: 'Quarteira',
+    img: null,
+    desc: 'Le point de chute des quatre premières nuits, à Quarteira, à quelques minutes de la marina de Vilamoura et des plages de l’Algarve central.',
+    address: { v: 'Rua Duas Sentinelas 9, 8125 Quarteira, Faro, Portugal', ok: true },
+    url: { v: 'https://www.airbnb.fr/rooms/704227875262201756?source_impression_id=p3_1785665528_P3-TSH7K7TllYGYE', ok: true, label: 'Voir l’annonce Airbnb' },
+    maps: 'https://www.google.com/maps/search/?api=1&query=Rua+Duas+Sentinelas+9%2C+8125+Quarteira%2C+Portugal',
+    hours: { v: 'Arrivée le 9 août · départ le 13 août — heures exactes à confirmer auprès de l’hôte', ok: false },
+    phone: { v: '', ok: false },
+    parking: { v: '', ok: false },
+    stay: { v: 'Quatre nuits, du 9 au 13 août', ok: true },
+    kids: { v: '', ok: false },
+    bring: { v: '', ok: false },
+    tips: { v: '', ok: false },
+    warn: 'À récupérer auprès de l’hôte avant l’arrivée : code Wi-Fi, instructions d’arrivée, code de la porte, nom et téléphone du contact sur place, règles du logement. Les photos de l’annonce Airbnb sont protégées : elles ne peuvent pas être recopiées ici, le bouton renvoie vers l’annonce.'
+  }
+};
