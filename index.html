@@ -29,6 +29,8 @@
 </head>
 <body>
 
+<div class="azulejo" aria-hidden="true"></div>
+
 <header class="top">
   <div class="wrap top__in">
     <a class="top__logo" href="#/accueil">Portugal <i>2026</i></a>
@@ -63,6 +65,7 @@
 
     <div class="wrap">
       <a class="next" id="home-next" href="#/programme"></a>
+      <div class="facts" id="home-facts"></div>
     </div>
 
     <div class="wrap sec">
@@ -70,10 +73,6 @@
       <div class="legs" id="home-legs"></div>
     </div>
 
-    <div class="wrap sec sec--tight">
-      <h2 class="sec__t">La bande-son du voyage</h2>
-      <div class="music" id="music"></div>
-    </div>
   </section>
 
   <!-- ============================ PROGRAMME ============================ -->
@@ -117,13 +116,8 @@
       </div>
     </div>
 
-    <div class="wrap sec sec--tight" id="d-shopwrap" hidden>
-      <h2 class="sec__t" id="d-shoptitle">Liste de courses</h2>
-      <ul class="check" id="d-shop"></ul>
-    </div>
-
     <div class="wrap sec sec--tight">
-      <h2 class="sec__t">À prendre aujourd’hui</h2>
+      <h2 class="sec__t">À prévoir aujourd’hui</h2>
       <ul class="check" id="d-pack"></ul>
       <div class="meter"><i id="d-packbar"></i></div>
       <p class="meter__l" id="d-packcount"></p>
@@ -164,11 +158,6 @@
       <h1 class="h-lg" id="h-infos">Infos</h1>
       <div id="infos-list" style="margin-top:24px"></div>
 
-      <h2 class="sec__t" style="margin-top:48px">Checklist générale</h2>
-      <ul class="check" id="gen-check"></ul>
-      <div class="meter"><i id="gen-bar"></i></div>
-      <p class="meter__l" id="gen-count"></p>
-
       <h2 class="sec__t" style="margin-top:48px">À confirmer</h2>
       <div class="tcf" id="tcf"></div>
 
@@ -181,6 +170,11 @@
   </section>
 
 </main>
+
+<button class="amb" id="amb" type="button" aria-pressed="false" aria-label="Écouter l’ambiance sonore du voyage" hidden>
+  <span class="amb__ico" aria-hidden="true"></span>
+  <span class="amb__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
