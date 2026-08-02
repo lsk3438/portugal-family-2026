@@ -14,8 +14,9 @@ export const IMAGES = {
   "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Faro_airport_01.jpg/1920px-Faro_airport_01.jpg"
  },
  "vilamoura-marina": {
-  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Marina_de_Vilamoura_%2835910408644%29.jpg/960px-Marina_de_Vilamoura_%2835910408644%29.jpg",
-  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Marina_de_Vilamoura_%2835910408644%29.jpg/1920px-Marina_de_Vilamoura_%2835910408644%29.jpg"
+  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg/960px-Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg",
+  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg/1920px-Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg",
+  "credit": "Marina de Vilamoura en plein jour — Wikimedia Commons, CC BY-SA 2.0"
  },
  "vilamoura-praia": {
   "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Vilamoura_Beach_%28Praia_da_Marina%29.jpg/960px-Vilamoura_Beach_%28Praia_da_Marina%29.jpg",
@@ -180,5 +181,94 @@ export const IMAGES = {
  "alfama": {
   "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Alfama%2C_Lisboa_-_2010-09-09.jpg/960px-Alfama%2C_Lisboa_-_2010-09-09.jpg",
   "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Alfama%2C_Lisboa_-_2010-09-09.jpg/1920px-Alfama%2C_Lisboa_-_2010-09-09.jpg"
+ },
+
+ /* ------------------------------------------------------------------
+    RESTAURANTS SANS PHOTO LIBRE — photos reprises depuis leur fiche
+    Tripadvisor, à la demande explicite du foyer, qui accepte le risque :
+    ce ne sont pas des images sous licence libre, seulement les seules
+    disponibles pour ces onze adresses. Chaque URL a été vérifiée (HTTP 200,
+    image réelle) avant d'être ajoutée ici. Une seule définition existe côté
+    Tripadvisor pour chacune : « card » et « hero » pointent la même image. */
+ "cesteiro-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/03/62/44/9a/restaurante-o-cesteiro.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/03/62/44/9a/restaurante-o-cesteiro.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "nosoloagua-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-p/12/e0/90/6f/melhor-espaco-do-algarve.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-p/12/e0/90/6f/melhor-espaco-do-algarve.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "theoven-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-s/2b/b3/0a/06/pani-puri.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-s/2b/b3/0a/06/pani-puri.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "cimas-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/03/ea/cf/32/cimas-english-bar-restaurant.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/03/ea/cf/32/cimas-english-bar-restaurant.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "bolina-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/09/2d/15/cb/bolina.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/09/2d/15/cb/bolina.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "omira-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-s/31/55/7d/82/acorda-de-gambas.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-s/31/55/7d/82/acorda-de-gambas.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "strauss-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/10/b2/c8/ec/o-tasco-do-strauss.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/10/b2/c8/ec/o-tasco-do-strauss.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "saonicolau-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/81/06/adega-de-sao-nicolau.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-s/0e/9c/81/06/adega-de-sao-nicolau.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "mercadores-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/08/f9/fd/e5/taberna-dos-mercadores.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/08/f9/fd/e5/taberna-dos-mercadores.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+ "abadia-ta": {
+  "card": "https://media-cdn.tripadvisor.com/media/photo-f/0e/b3/2d/f3/abadia-restaurant.jpg",
+  "hero": "https://media-cdn.tripadvisor.com/media/photo-f/0e/b3/2d/f3/abadia-restaurant.jpg",
+  "credit": "Photo : fiche Tripadvisor de l’établissement"
+ },
+
+ /* --- Cartes d'étapes de l'accueil : trois vues de jour, spectaculaires --- */
+ "leg-algarve": {
+  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg/960px-Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg",
+  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg/1920px-Marina_de_Vilamoura_-_Portugal_%283841747853%29.jpg",
+  "credit": "Marina de Vilamoura — Wikimedia Commons, CC BY-SA 2.0"
+ },
+ "leg-lisbonne": {
+  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Lisbon_Pra%C3%A7a_do_Com%C3%A9rcio_BW_2018-10-08_17-45-56.jpg/960px-Lisbon_Pra%C3%A7a_do_Com%C3%A9rcio_BW_2018-10-08_17-45-56.jpg",
+  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Lisbon_Pra%C3%A7a_do_Com%C3%A9rcio_BW_2018-10-08_17-45-56.jpg/1920px-Lisbon_Pra%C3%A7a_do_Com%C3%A9rcio_BW_2018-10-08_17-45-56.jpg",
+  "credit": "Praça do Comércio, Lisbonne — Wikimedia Commons, CC BY-SA 4.0"
+ },
+ "leg-porto": {
+  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Panoramic_View_of_Porto%27s_Ribeira_District_and_Dom_Lu%C3%ADs_I_Bridge_%2855245842707%29.jpg/960px-Panoramic_View_of_Porto%27s_Ribeira_District_and_Dom_Lu%C3%ADs_I_Bridge_%2855245842707%29.jpg",
+  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Panoramic_View_of_Porto%27s_Ribeira_District_and_Dom_Lu%C3%ADs_I_Bridge_%2855245842707%29.jpg/1920px-Panoramic_View_of_Porto%27s_Ribeira_District_and_Dom_Lu%C3%ADs_I_Bridge_%2855245842707%29.jpg",
+  "credit": "La Ribeira et le pont Dom Luís I, Porto — Wikimedia Commons, CC BY 4.0"
+ },
+
+ /* --- Villa : photo de l'annonce Airbnb, fournie par Chris --- */
+ "villa": {
+  "card": "https://a0.muscache.com/im/pictures/miso/Hosting-704227875262201756/original/bdefaeef-b129-47ef-b91c-c04fa4ca96f4.jpeg?im_w=720",
+  "hero": "https://a0.muscache.com/im/pictures/miso/Hosting-704227875262201756/original/bdefaeef-b129-47ef-b91c-c04fa4ca96f4.jpeg?im_w=1200",
+  "credit": "Photo : annonce Airbnb du logement"
+ },
+
+ /* --- ALDI : devanture ALDI libre de droits (photo d'illustration) --- */
+ "aldi": {
+  "card": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Aldi_at_Vista_Palms_Orlando_FL_2025-02-12_16-24-58.jpg/960px-Aldi_at_Vista_Palms_Orlando_FL_2025-02-12_16-24-58.jpg",
+  "hero": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Aldi_at_Vista_Palms_Orlando_FL_2025-02-12_16-24-58.jpg/1920px-Aldi_at_Vista_Palms_Orlando_FL_2025-02-12_16-24-58.jpg",
+  "credit": "Devanture ALDI (photo d’illustration) — Wikimedia Commons, CC BY 4.0"
  }
 };
