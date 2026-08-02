@@ -1,0 +1,64 @@
+/* ======================================================================
+   JETONS DE DESIGN — couleurs, rythme d'espacement, rayons, ombres,
+   courbes d'animation, typographies.
+   Changer une valeur ici la change partout dans le site.
+   ====================================================================== */
+
+:root{
+  /* Surfaces */
+  --paper:    #FBF8F3;
+  --sand:     #F3EBDF;
+  --sand-2:   #E9DDCB;
+  --line:     #E2D7C6;
+  --white:    #FFFFFF;
+
+  /* Encre */
+  --ink:      #14181D;
+  --ink-2:    #3D454E;
+  --ink-3:    #5C6470;
+
+  /* Couleurs du voyage
+     Une teinte par région, chacune vérifiée AA sur le fond papier :
+     Algarve bleu Atlantique 5.83 · Lisbonne vert 5.97 · Porto bordeaux 7.72 */
+  --atlantic: #1A6698;
+  --atlantic-d: #0F4570;
+  --lisboa:   #2F6B4A;
+  --lisboa-d: #1E4A33;
+  --porto:    #8E2B3F;
+  --porto-d:  #5E1A28;
+  --terracotta:#B0541C;
+  --olive:    #5F7048;
+  --gold:     #86691F;
+
+  /* Accent contextuel par étape */
+  --accent:   var(--atlantic);
+  --accent-d: var(--atlantic-d);
+  --accent-l: #8FCBEC;
+
+  /* Rythme — 4 / 8 */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px;
+  --s6:32px; --s7:48px; --s8:64px; --s9:96px;
+
+  --r-s:8px; --r-m:14px; --r-l:22px; --r-xl:30px; --r-p:999px;
+
+  --sh-1: 0 1px 2px rgba(20,24,29,.04), 0 6px 18px rgba(20,24,29,.05);
+  --sh-2: 0 2px 8px rgba(20,24,29,.06), 0 20px 48px rgba(20,24,29,.10);
+  --sh-3: 0 30px 80px rgba(20,24,29,.20);
+
+  --e:      cubic-bezier(.32,.72,0,1);
+  --e-out:  cubic-bezier(.16,1,.3,1);
+  --t:      260ms;
+
+  --maxw: 1180px;
+  --nav-h: 66px;
+
+  --f-display: 'Cormorant Garamond', 'Iowan Old Style', Georgia, serif;
+  --f-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Les propriétés d'accent sont déclarées pour pouvoir être animées : sans ça,
+   une variable CSS saute d'une valeur à l'autre au changement de région. */
+@property --accent   { syntax:'<color>'; inherits:true; initial-value:#1A6698; }
+@property --accent-d { syntax:'<color>'; inherits:true; initial-value:#0F4570; }
+@property --accent-l { syntax:'<color>'; inherits:true; initial-value:#8FCBEC; }
+:root{ transition:--accent 700ms var(--e), --accent-d 700ms var(--e), --accent-l 700ms var(--e); }
