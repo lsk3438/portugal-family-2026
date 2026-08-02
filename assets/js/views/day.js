@@ -11,7 +11,7 @@ import { img, legOfDay, dayByN, placeOf, setAccent, placeThumb } from '../core/h
 import { go } from '../core/router.js';
 import { observe } from '../features/reveal.js';
 import { wxFill } from '../features/weather.js';
-import { rows, missing, links } from '../features/details.js';
+import { rows, links } from '../features/details.js';
 
 /* ======================================================================
    JOURNÉE
@@ -33,14 +33,11 @@ export function placeBlock(k){
   const p = placeOf(k); if(!p) return '';
 
   /* Fiche complète, directement dans le déroulé de la journée : photo, nom,
-     description, PUIS toutes les informations pratiques — adresse, horaires,
-     tarifs, téléphone — et tous les liens utiles (site officiel ou, à
-     défaut, recherche Tripadvisor, Google Maps, réservation, appel). Rien
-     n'est caché derrière un clic : « Voir le récit » n'ouvre qu'un
-     complément — d'autres photos, le récit du lieu, les moments du séjour
-     où on le retrouve — jamais une information qui devrait déjà être là. */
-  const acts = links(k, p) + `<button class="btn" type="button" data-details="${k}">${I.info}Voir le récit</button>`;
-
+     description, PUIS les informations pratiques vérifiées — adresse,
+     horaires, tarifs, téléphone — et tous les liens utiles. Demande de
+     Chris : aucune ligne « À confirmer », aucun encadré « Reste à
+     compléter », aucun avertissement — seules les informations sûres
+     s'affichent, et chaque fiche garde un vrai descriptif. */
   return `<div class="place">
     <div class="place__top">
       ${placeThumb(k, 'card', 'place__img')}
@@ -52,9 +49,7 @@ export function placeBlock(k){
       </div>
     </div>
     <div class="place__rows">${rows(p)}</div>
-    ${p.warn ? `<div class="place__warn">${I.warn}<span>${esc(p.warn)}</span></div>` : ''}
-    ${missing(p)}
-    <div class="place__acts">${acts}</div>
+    <div class="place__acts">${links(k, p)}</div>
   </div>`;
 }
 

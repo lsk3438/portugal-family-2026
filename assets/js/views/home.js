@@ -50,9 +50,8 @@ export function renderHome(){
   wxFill(false);
 
   $('#home-legs').innerHTML = TRIP.legs.map(l => {
-    const day = TRIP.days.find(x => x.leg === l.id);
-    return `<a class="legcard reveal" href="#/programme?leg=${l.id}" style="--lc:${l.color};--lc-l:${l.light}">
-      <img src="${img(day.hero,'card')}" alt="" loading="lazy" width="960" height="640">
+    return `<a class="legcard reveal" href="#/programme?leg=${l.id}" style="--lc:${l.vivid || l.color};--lc-l:${l.light}">
+      <img src="${img('leg-' + l.id,'card')}" alt="" loading="lazy" width="960" height="640">
       <div class="legcard__v"></div>
       <div class="legcard__b">
         <div class="legcard__n">Jours ${l.from} à ${l.to}</div>

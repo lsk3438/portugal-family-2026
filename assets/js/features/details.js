@@ -7,13 +7,13 @@
 
    Règle absolue, héritée du cahier des charges : rien n'est inventé. Un
    champ absent des données n'est pas comblé par une valeur plausible — il
-   apparaît dans « Reste à compléter », pour qu'on sache quoi aller vérifier.
+   reste simplement invisible à l'écran, et recensé dans l'onglet Infos.
    ========================================================================== */
 
 import { $, esc } from '../core/dom.js';
 import { I } from '../core/icons.js';
 import { TRIP } from '../../../data/trip.js';
-import { placeOf, field, tbc, img, placeArt, legOfPlace } from '../core/helpers.js';
+import { placeOf, field, img, placeArt, legOfPlace } from '../core/helpers.js';
 
 let lastFocus = null;
 
@@ -30,12 +30,15 @@ const EXPECTED = [
   ['tips',    'Conseils']
 ];
 
+/* Seules les rubriques réellement renseignées (ok:true) s'affichent : pas de
+   ligne « À confirmer » à l'écran. Ce qui manque reste dans les données,
+   invisible, prêt à apparaître dès que la valeur est vérifiée. */
 export function rows(p){
-  const out = [`<div class="dt__row"><b>Adresse</b><span>${field(p.address)}</span></div>`];
-  if (!(p.url && p.url.ok))
-    out.push(`<div class="dt__row"><b>Site officiel</b><span>${tbc}</span></div>`);
+  const out = [];
+  if (p.address && p.address.ok)
+    out.push(`<div class="dt__row"><b>Adresse</b><span>${field(p.address)}</span></div>`);
   EXPECTED.forEach(([k, label]) => {
-    if (p[k] === undefined) return;
+    if (!(p[k] && p[k].ok && p[k].v)) return;
     out.push(`<div class="dt__row"><b>${label}</b><span>${field(p[k])}</span></div>`);
   });
   return out.join('');
@@ -96,7 +99,7 @@ function whenHTML(key){
    adresse, horaires, tarifs, téléphone — directement, sans les cacher
    derrière un clic. Ce panneau n'ajoute donc plus les mêmes lignes : il
    apporte le récit du lieu, ses autres photos et les moments du séjour où
-   on le retrouve. « Voir le récit » n'a jamais retiré d'information. */
+   on le retrouve. */
 export function openDetails(key){
   const p = placeOf(key); if (!p) return;
   const leg = legOfPlace(key);
