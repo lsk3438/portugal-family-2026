@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Portugal 2026">
+  <rect width="512" height="512" rx="112" fill="#123A5A"/>
+  <g fill="none" stroke="#2E6DA4" stroke-width="10" opacity=".55">
+    <circle cx="0" cy="0" r="150"/>
+    <circle cx="512" cy="0" r="150"/>
+    <circle cx="0" cy="512" r="150"/>
+    <circle cx="512" cy="512" r="150"/>
+    <path d="M256 62 L450 256 L256 450 L62 256 Z"/>
+    <path d="M256 140 Q305 256 256 372 Q207 256 256 140 Z"/>
+    <path d="M140 256 Q256 305 372 256 Q256 207 140 256 Z"/>
+  </g>
+  <text x="256" y="342" font-size="252" text-anchor="middle"
+        font-family="Georgia, 'Times New Roman', serif" fill="#E8B87E">P</text>
+</svg>
