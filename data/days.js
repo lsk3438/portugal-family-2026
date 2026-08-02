@@ -26,7 +26,7 @@ export const DAYS = [
         { t: '11h00', k: 'visite', title: 'Marina et plage de Vilamoura', text: "Promenade sur les pontons, yachts, photos, café ou glace, puis un moment sur la plage.", place: 'vilamouraMarina' },
         { t: '12h45', k: 'repas', title: 'Déjeuner portugais', text: "Poisson et fruits de mer face à la marina.", place: 'cesteiro', todo: 'À réserver' },
         { t: '14h30', k: 'courses', title: 'Courses à ALDI Quarteira', text: "Eau, jus, petits-déjeuners, snacks, fruits, boissons, produits pour le logement, glaces.", place: 'aldi' },
-        { t: '16h00', k: 'libre', title: 'Check-in à la villa', text: "Déchargement, répartition des chambres, découverte du logement, connexion au Wi-Fi." },
+        { t: '16h00', k: 'libre', title: 'Check-in à la villa', text: "Déchargement, répartition des chambres, découverte du logement, connexion au Wi-Fi." , place: 'villa'},
         { t: '17h00', k: 'libre', title: 'Piscine et temps libre', text: "Repos jusqu’au dîner." },
         { t: '20h00', k: 'soir', title: 'Dîner simple à la villa', text: "Avec les courses du jour." },
         { t: '21h30', k: 'soir', title: 'Première soirée en famille', text: "Tranquille." }
