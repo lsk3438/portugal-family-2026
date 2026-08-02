@@ -82,8 +82,12 @@
 
   function setAccent(leg){
     const l = typeof leg === 'string' ? legOf(leg) : leg;
-    document.documentElement.style.setProperty('--accent', l ? l.color : 'var(--terracotta)');
-    document.documentElement.style.setProperty('--accent-d', l ? l.deep : '#8A3D14');
+    const root = document.documentElement.style;
+    root.setProperty('--accent',   l ? l.color : '#1A6698');
+    root.setProperty('--accent-d', l ? l.deep  : '#0F4570');
+    root.setProperty('--accent-l', l ? l.light : '#8FCBEC');
+    const tc = document.querySelector('meta[name="theme-color"]');
+    if (tc) tc.setAttribute('content', '#FBF8F3');
   }
 
   /* ======================================================================
@@ -137,6 +141,11 @@
       wxIcon(w.code) + '<b>' + w.max + '°</b><small>/ ' + w.min + '°</small>' +
       (w.rain != null && w.rain >= 30 ? '<small>· ' + w.rain + ' %</small>' : '') + '</span>';
   }
+  /** Grand format, pour le bandeau de l'accueil. */
+  function wxTile(w){
+    return wxIcon(w.code) + '<span class="fact__v"><b>' + w.max + '°</b><small>' +
+      wxLabel(w.code) + ', ' + w.min + '° la nuit</small></span>';
+  }
   /** Remplit tous les emplacements [data-wx="AAAA-MM-JJ"] visibles. */
   function wxFill(muted){
     const slots = $$('[data-wx]');
@@ -149,7 +158,9 @@
     Object.values(legs).forEach(leg => wxFetch(leg).then(map => {
       $$('[data-wx]').forEach(el => {
         const w = map[el.dataset.wx];
-        if (w && !el.innerHTML) el.innerHTML = wxHTML(w, muted);
+        if (!w || el.dataset.filled) return;
+        el.innerHTML = el.dataset.wxfmt === 'tile' ? wxTile(w) : wxHTML(w, muted);
+        el.dataset.filled = '1';
       });
     }));
   }
@@ -251,9 +262,25 @@
         <span class="next__go">Ouvrir la journée ${I.arrow}</span>
       </div>`;
 
+    /* Bandeau de faits — uniquement des données vérifiées ou calculées.
+       Ni budget ni parking : ces valeurs-là ne sont pas sourcées. */
+    const nbLieux = nextD.items.filter(x => x.place).length;
+    $('#home-facts').innerHTML =
+      `<div class="fact" data-wx="${nextD.date}" data-wxfmt="tile">` +
+        `${I.wxPart}<span class="fact__v"><b>—</b><small>Météo en ligne</small></span></div>` +
+      `<div class="fact">${I.sun}<span class="fact__v"><b>${esc(nextD.sunset)}</b><small>Coucher du soleil</small></span></div>` +
+      (nextD.travel ? (() => {
+        const dur = /(\d+\s*h(?:\s*\d+)?)/.exec(nextD.travel);
+        const route = nextD.travel.split('·')[0].trim();
+        return `<div class="fact">${I.car}<span class="fact__v"><b>${esc(dur ? dur[1] : route)}</b>` +
+               `<small>${esc(dur ? route : 'Route du jour')}</small></span></div>`;
+      })() : '') +
+      `<div class="fact">${I.pin}<span class="fact__v"><b>${nbLieux}</b><small>${nbLieux > 1 ? 'lieux au programme' : 'lieu au programme'}</small></span></div>`;
+    wxFill(false);
+
     $('#home-legs').innerHTML = TRIP.legs.map(l => {
       const day = TRIP.days.find(x => x.leg === l.id);
-      return `<a class="legcard reveal" href="#/programme?leg=${l.id}" style="--lc:${l.color}">
+      return `<a class="legcard reveal" href="#/programme?leg=${l.id}" style="--lc:${l.color};--lc-l:${l.light}">
         <img src="${img(day.hero,'card')}" alt="" loading="lazy" width="960" height="640">
         <div class="legcard__v"></div>
         <div class="legcard__b">
@@ -263,19 +290,6 @@
         </div></a>`;
     }).join('');
 
-    renderMusic();
-  }
-
-  function renderMusic(){
-    const p = TRIP.playlist;
-    if (!p) return;
-    $('#music').innerHTML =
-      '<iframe title="Playlist du voyage" height="352" loading="lazy" ' +
-      'src="https://open.spotify.com/embed/playlist/' + p.id + '?utm_source=generator&theme=0" ' +
-      'allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>' +
-      '<p class="music__note">' + I.music + '<span>« ' + esc(p.name) + ' ». Si le lecteur reste vide, ' +
-      'c’est que la playlist est encore privée : ouvre-la dans Spotify, menu ⋯, puis « Rendre publique ». ' +
-      '<a href="' + p.url + '" target="_blank" rel="noopener noreferrer">Ouvrir dans Spotify</a></span></p>';
   }
 
   function renderStats(sel){
@@ -323,7 +337,6 @@
      ====================================================================== */
   const favs = () => store.json('pt.favs', []);
   const packKey = n => 'pt.pack.' + n;
-  const shopKey = n => 'pt.shop.' + n;
   const doneKey = n => 'pt.done.' + n;
   let railHandler = null, nextTimer = null;
 
@@ -348,6 +361,7 @@
         <div class="place__i">
           <div class="place__c">${esc(CAT_LABEL[p.cat] || p.cat)} · ${esc(p.city)}</div>
           <div class="place__n">${esc(p.name)}</div>
+          ${p.cuisine ? `<div class="place__cui">${I.repas}${esc(p.cuisine)}</div>` : ''}
           <p class="place__d">${esc(p.desc)}</p>
         </div>
         <button class="place__fav" type="button" data-fav="${k}" aria-pressed="${on}"
@@ -400,17 +414,7 @@
       (d.alert ? `<div class="step"><div class="step__dot">${I.warn}</div><div class="step__h"><span class="step__t">Attention</span></div><div class="step__card"><p>${esc(d.alert)}</p></div></div>` : '') +
       (d.note ? `<div class="step"><div class="step__dot">${I.info}</div><div class="step__h"><span class="step__t">À noter</span></div><div class="step__card"><p>${esc(d.note)}</p></div></div>` : '');
 
-    // liste de courses
-    const sw = $('#d-shopwrap');
-    if (d.shop){
-      sw.hidden = false;
-      $('#d-shoptitle').textContent = d.shop.title;
-      const s = store.json(shopKey(n), {});
-      $('#d-shop').innerHTML = d.shop.items.map((t,i) =>
-        `<li><label><input type="checkbox" data-shop="${i}" ${s[i]?'checked':''}><span class="bx" aria-hidden="true">${I.check}</span><span class="tx">${esc(t)}</span></label></li>`).join('');
-    } else sw.hidden = true;
-
-    // à prendre aujourd'hui
+    // à prévoir aujourd'hui
     const p = store.json(packKey(n), {});
     $('#d-pack').innerHTML = (d.pack||[]).map((t,i) =>
       `<li><label><input type="checkbox" data-pack="${i}" ${p[i]?'checked':''}><span class="bx" aria-hidden="true">${I.check}</span><span class="tx">${esc(t)}</span></label></li>`).join('');
@@ -613,22 +617,10 @@
         ${g.rows.map(r => `<div class="info__r"><b>${esc(r.k)}</b><span>${r.ok ? esc(r.v) : (r.v ? esc(r.v) : tbc)}${r.ok?'':' <span class="tbc">(à confirmer)</span>'}</span></div>`).join('')}
       </section>`).join('');
 
-    const g = store.json('pt.gen', {});
-    $('#gen-check').innerHTML = TRIP.checklist.map((t,i) =>
-      `<li><label><input type="checkbox" data-gen="${i}" ${g[i]?'checked':''}><span class="bx" aria-hidden="true">${I.check}</span><span class="tx">${esc(t)}</span></label></li>`).join('');
-    genRefresh();
-
     $('#tcf').innerHTML = `<h3>${I.warn}Informations qui restent à confirmer</h3><ul>` +
       TRIP.toConfirm.map(x => `<li><b>${esc(x.t)}</b><span>${esc(x.d)}</span></li>`).join('') + '</ul>';
     observe();
   }
-  function genRefresh(){
-    const b = $$('#gen-check input'); if(!b.length) return;
-    const k = b.filter(x=>x.checked).length;
-    $('#gen-bar').style.width = (k/b.length*100)+'%';
-    $('#gen-count').textContent = k + ' sur ' + b.length + ' préparés';
-  }
-
   /* ======================================================================
      ANIMATIONS AU DÉFILEMENT
      ====================================================================== */
@@ -767,20 +759,190 @@
       const m = /jour\/(\d+)/.exec(location.hash); const n = m ? +m[1] : 1;
       if (t.dataset.pack !== undefined){
         const s = store.json(packKey(n), {}); s[t.dataset.pack] = t.checked; save(packKey(n), s); packRefresh(n);
-      } else if (t.dataset.shop !== undefined){
-        const s = store.json(shopKey(n), {}); s[t.dataset.shop] = t.checked; save(shopKey(n), s);
-      } else if (t.dataset.gen !== undefined){
-        const s = store.json('pt.gen', {}); s[t.dataset.gen] = t.checked; save('pt.gen', s); genRefresh();
       }
     });
 
     window.addEventListener('hashchange', route);
     window.addEventListener('resize', () => { if (map) map.invalidateSize(); }, { passive:true });
+
+    /* Parallaxe du fond azulejo : le carreau glisse trois fois moins vite que
+       le contenu, juste assez pour donner de la profondeur sans distraire. */
+    const az = $('.azulejo');
+    if (az && !REDUCED){
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          az.style.setProperty('--az-y', (window.scrollY * 0.06).toFixed(1) + 'px');
+          ticking = false;
+        });
+      }, { passive:true });
+    }
+  }
+
+  /* ======================================================================
+     AMBIANCE SONORE
+     Rien n'est téléchargé : le son est synthétisé dans le navigateur avec
+     l'API Web Audio. Deux couches — le ressac de l'Atlantique (bruit filtré
+     dont l'amplitude respire lentement) et une corde pincée façon guitare
+     portugaise, qui égrène un mode phrygien en notes espacées. Aucun fichier,
+     aucune question de droits, quelques kilo-octets de code.
+     Le son ne démarre jamais seul : il faut appuyer sur le bouton.
+     ====================================================================== */
+  const AMB = (() => {
+    const KEY = 'pt.amb';
+    let ctx = null, master = null, timer = null, on = false;
+
+    // mi phrygien — l'intervalle de seconde mineure donne la couleur ibérique
+    const SCALE = [164.81, 174.61, 196.00, 220.00, 246.94, 261.63, 293.66, 329.63, 392.00, 440.00];
+
+    function reverb(){
+      const secs = 2.6, n = Math.floor(ctx.sampleRate * secs);
+      const buf = ctx.createBuffer(2, n, ctx.sampleRate);
+      for (let c = 0; c < 2; c++){
+        const d = buf.getChannelData(c);
+        for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / n, 2.6);
+      }
+      const cv = ctx.createConvolver(); cv.buffer = buf; return cv;
+    }
+
+    function ocean(dest){
+      const n = ctx.sampleRate * 4;
+      const buf = ctx.createBuffer(1, n, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      let last = 0;                                   // bruit brun : plus doux que le blanc
+      for (let i = 0; i < n; i++){
+        last = (last + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+        d[i] = last * 3.2;
+      }
+      const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true;
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 520; lp.Q.value = 0.6;
+      const swell = ctx.createGain(); swell.gain.value = 0.5;
+      const lfo = ctx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 0.085;
+      const lfoAmt = ctx.createGain(); lfoAmt.gain.value = 0.42;
+      lfo.connect(lfoAmt); lfoAmt.connect(swell.gain);
+      const lvl = ctx.createGain(); lvl.gain.value = 0.5;
+      src.connect(lp); lp.connect(swell); swell.connect(lvl); lvl.connect(dest);
+      src.start(); lfo.start();
+    }
+
+    // corde pincée : une bouffée de bruit entretenue par une ligne à retard
+    function pluck(freq, when, vel, dest){
+      const len = Math.ceil(ctx.sampleRate * 0.02);
+      const buf = ctx.createBuffer(1, len, ctx.sampleRate);
+      const d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len);
+      const src = ctx.createBufferSource(); src.buffer = buf;
+      const inG = ctx.createGain(); inG.gain.value = vel;
+      const dly = ctx.createDelay(0.1); dly.delayTime.value = 1 / freq;
+      const fb = ctx.createGain(); fb.gain.value = 0.962;
+      const lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2300;
+      const body = ctx.createBiquadFilter(); body.type = 'peaking'; body.frequency.value = 400; body.gain.value = 4.5;
+      src.connect(inG); inG.connect(dly);
+      dly.connect(lp); lp.connect(fb); fb.connect(dly);
+      lp.connect(body); body.connect(dest);
+      fb.gain.setValueAtTime(0.962, when);
+      fb.gain.linearRampToValueAtTime(0, when + 3.4);
+      src.start(when); src.stop(when + 0.02);
+    }
+
+    let strings = null;
+
+    function build(){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return false;
+      ctx = new AC();
+      master = ctx.createGain(); master.gain.value = 0;
+      master.connect(ctx.destination);
+
+      const wet = reverb(); const wetG = ctx.createGain(); wetG.gain.value = 0.34;
+      wet.connect(wetG); wetG.connect(master);
+      const dry = ctx.createGain(); dry.gain.value = 0.85; dry.connect(master);
+
+      ocean(dry);
+
+      strings = ctx.createGain(); strings.gain.value = 0.5;
+      strings.connect(dry); strings.connect(wet);
+      return true;
+    }
+
+    function schedule(){
+      if (!on) return;
+      const t = ctx.currentTime + 0.05;
+      const i = Math.floor(Math.random() * SCALE.length);
+      pluck(SCALE[i], t, 0.5 + Math.random() * 0.3, strings);
+      if (Math.random() < 0.45){                      // parfois une seconde note, très proche
+        const j = Math.max(0, Math.min(SCALE.length - 1, i + (Math.random() < 0.5 ? 2 : -2)));
+        pluck(SCALE[j], t + 0.19 + Math.random() * 0.14, 0.35, strings);
+      }
+      timer = setTimeout(schedule, 1900 + Math.random() * 2600);
+    }
+
+    function fade(to, secs){
+      if (!master) return;
+      const t = ctx.currentTime;
+      master.gain.cancelScheduledValues(t);
+      master.gain.setValueAtTime(master.gain.value, t);
+      master.gain.linearRampToValueAtTime(to, t + secs);
+    }
+
+    return {
+      get on(){ return on; },
+      wanted(){ try { return localStorage.getItem(KEY) === '1'; } catch(e){ return false; } },
+      toggle(){
+        if (on){
+          on = false;
+          fade(0, 1.2);
+          clearTimeout(timer);
+          setTimeout(() => { if (!on && ctx) ctx.suspend(); }, 1300);
+          try { localStorage.setItem(KEY, '0'); } catch(e){}
+          return false;
+        }
+        if (!ctx && !build()) return false;
+        on = true;
+        if (ctx.state === 'suspended') ctx.resume();
+        clearTimeout(timer);
+        timer = setTimeout(schedule, 300);
+        fade(0.22, 2.2);
+        try { localStorage.setItem(KEY, '1'); } catch(e){}
+        return true;
+      }
+    };
+  })();
+
+  function wireAmbiance(){
+    const btn = $('#amb');
+    if (!btn) return;
+    if (!(window.AudioContext || window.webkitAudioContext)) return;   // pas de son possible
+    btn.hidden = false;
+
+    btn.addEventListener('click', () => {
+      const playing = AMB.toggle();
+      btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      btn.setAttribute('aria-label', playing ? 'Couper l’ambiance sonore' : 'Écouter l’ambiance sonore du voyage');
+      btn.classList.remove('pulse');
+    });
+
+    if (AMB.wanted()){
+      // la personne avait déjà activé le son : on le reprend à son premier geste,
+      // sans rien lui redemander, parce que le navigateur exige une interaction
+      const resume = () => {
+        document.removeEventListener('pointerdown', resume);
+        if (AMB.on) return;
+        const playing = AMB.toggle();
+        btn.setAttribute('aria-pressed', playing ? 'true' : 'false');
+      };
+      document.addEventListener('pointerdown', resume, { once:true });
+    } else if (!REDUCED){
+      setTimeout(() => btn.classList.add('pulse'), 1800);
+    }
   }
 
   /* -------------------------------------------------------------- démarrage */
   function boot(){
     wire();
+    wireAmbiance();
     if (!location.hash) location.hash = '#/accueil';
     route();
   }
