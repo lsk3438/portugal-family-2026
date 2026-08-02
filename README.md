@@ -28,31 +28,23 @@ python3 -m http.server 8000
 # puis ouvrir http://localhost:8000
 ```
 
-## Déployer sur Vercel
+## Mise en ligne — GitHub Pages
 
-Le dépôt ne contient que les sources : `vercel.json` demande à Vercel de lancer `node build.mjs`, qui écrit le site assemblé dans `public/index.html`. Rien d'autre à configurer.
+C'est la méthode retenue. Le dépôt ne contient que les sources ; le fichier `.github/workflows/pages.yml` lance `node build.mjs` à chaque `git push` sur `main`, puis publie le dossier `public/`.
 
-**Depuis l'interface web**
+**Réglage à faire une seule fois**
 
-1. Sur [vercel.com](https://vercel.com), cliquer sur **Add New → Project**.
-2. Importer le dépôt `portugal-family-2026` (autoriser Vercel à lire le dépôt privé).
-3. Laisser **Framework Preset** sur `Other` et ne rien changer : `vercel.json` fournit déjà `buildCommand: node build.mjs` et `outputDirectory: public`.
-4. Cliquer sur **Deploy**. Le site est en ligne en une minute environ.
+1. Le dépôt doit être **public** : *Settings → General → Danger Zone → Change repository visibility*. GitHub Pages n'est pas disponible sur les dépôts privés du plan gratuit.
+2. *Settings → Pages → Build and deployment → Source* : choisir **GitHub Actions** (et non « Deploy from a branch »).
+3. Onglet *Actions* : le workflow « Déploiement GitHub Pages » se lance. Au bout d'une à deux minutes, l'adresse apparaît dans *Settings → Pages*.
 
-Aucune variable d'environnement n'est nécessaire.
+Adresse finale : `https://lsk3438.github.io/portugal-family-2026/`
 
-**Depuis le terminal**
+Ensuite, chaque modification poussée sur `main` remet le site à jour toute seule.
 
-```bash
-npm i -g vercel
-cd portugal-family-2026
-vercel          # déploiement de prévisualisation
-vercel --prod   # mise en production
-```
+**Alternative : Vercel**
 
-Le fichier `vercel.json` fourni ajoute les bons en-têtes de cache et empêche l'indexation par les moteurs de recherche.
-
-Chaque `git push` redéploie automatiquement.
+Le fichier `vercel.json` est conservé au cas où. Il permet d'héberger le site **sans rendre le dépôt public** : sur [vercel.com](https://vercel.com), *Add New → Project*, importer le dépôt, ne rien changer, *Deploy*. `vercel.json` fournit déjà `buildCommand: node build.mjs` et `outputDirectory: public`, et ajoute les en-têtes qui empêchent l'indexation par les moteurs de recherche.
 
 ## Modifier le contenu
 
@@ -62,10 +54,11 @@ Horaires, textes, lieux, adresses, téléphones, liens, réservations, checklist
 
 ```bash
 # après n'importe quelle modification
-python3 build.py
+node build.mjs     # génère public/index.html — c'est ce que lance GitHub Pages
+python3 build.py   # équivalent en Python, génère index.html à la racine
 ```
 
-Le script régénère `index.html`.
+Les deux scripts produisent le même site ; seul `build.mjs` est utilisé par le déploiement automatique.
 
 ### Conventions du fichier de données
 
@@ -93,9 +86,11 @@ Pour la photo, ajouter une entrée dans `src/images.json` avec une URL Wikimedia
 ## Structure
 
 ```
-├── index.html              ← le site généré, c'est le seul fichier à déployer
-├── build.py                ← assemble les sources en index.html
-├── vercel.json             ← en-têtes et redirections pour Vercel
+├── .github/workflows/
+│   └── pages.yml           ← construit et publie le site sur GitHub Pages
+├── build.mjs               ← assemble les sources en public/index.html
+├── build.py                ← même chose en Python, sort index.html à la racine
+├── vercel.json             ← config de secours pour un hébergement Vercel
 └── src/
     ├── trip.js             ← TOUTES les données du voyage
     ├── app.js              ← logique : routeur, compte à rebours, carte, favoris
@@ -106,7 +101,18 @@ Pour la photo, ajouter une entrée dans `src/images.json` avec une URL Wikimedia
 
 ## Confidentialité
 
-La page porte une balise `noindex`. Aucune donnée n'est envoyée nulle part : favoris, checklists et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil. Ils ne se synchronisent pas entre téléphones.
+La page porte une balise `noindex, nofollow` : elle ne remonte pas dans les moteurs de recherche. Aucune donnée n'est envoyée nulle part — favoris, checklists et statuts de réservation restent dans le navigateur de chaque personne, sur son propre appareil, et ne se synchronisent pas entre téléphones.
+
+**Ce dépôt est public**, condition imposée par GitHub Pages sur le plan gratuit. Concrètement, tout le contenu de `src/trip.js` est lisible par n'importe qui sur github.com. Aujourd'hui ce fichier ne contient rien de personnel : les adresses des logements sont en « À confirmer » et les numéros de téléphone sont ceux de restaurants et de monuments, tous publics.
+
+À ne donc **pas** écrire dans `src/trip.js` tant que le dépôt est public :
+
+- l'adresse exacte des logements, associée aux dates d'absence ;
+- les numéros de téléphone personnels des participants ;
+- les références de vol, de location de voiture, de police d'assurance ;
+- les codes de boîte à clés, les identifiants Wi-Fi.
+
+Ces informations-là se transmettent par message. Si elles doivent figurer dans le site, il faut d'abord repasser le dépôt en privé et l'héberger sur Vercel, qui accepte les dépôts privés gratuitement.
 
 ## Crédits
 
