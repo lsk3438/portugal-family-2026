@@ -7,7 +7,7 @@ import { $, $$, REDUCED, esc } from '../core/dom.js';
 import { I, CAT_LABEL } from '../core/icons.js';
 import { store, save } from '../core/store.js';
 import { TRIP } from '../../../data/trip.js';
-import { img, legOfDay, dayByN, placeOf, field, setAccent } from '../core/helpers.js';
+import { img, legOfDay, dayByN, placeOf, field, setAccent, placeThumb } from '../core/helpers.js';
 import { go } from '../core/router.js';
 import { observe } from '../features/reveal.js';
 import { wxFill } from '../features/weather.js';
@@ -15,7 +15,6 @@ import { wxFill } from '../features/weather.js';
 /* ======================================================================
    JOURNÉE
    ====================================================================== */
-export const favs = () => store.json('pt.favs', []);
 export const packKey = n => 'pt.pack.' + n;
 export const doneKey = n => 'pt.done.' + n;
 let railHandler = null, nextTimer = null;
@@ -31,34 +30,27 @@ export function stopDay(){
 
 export function placeBlock(k){
   const p = placeOf(k); if(!p) return '';
-  const on = favs().indexOf(k) >= 0;
-  const rows = [];
-  rows.push(`<div class="place__row"><b>Adresse</b><span>${field(p.address)}</span></div>`);
-  if (p.hours !== undefined) rows.push(`<div class="place__row"><b>Horaires</b><span>${field(p.hours)}</span></div>`);
-  if (p.price !== undefined) rows.push(`<div class="place__row"><b>Tarifs</b><span>${field(p.price)}</span></div>`);
-  if (p.phone !== undefined) rows.push(`<div class="place__row"><b>Téléphone</b><span>${field(p.phone)}</span></div>`);
+
+  /* Vue compacte : la photo, le nom, la cuisine, deux lignes de description,
+     puis les trois gestes utiles sur place. Tout le reste — horaires, tarifs,
+     conseils, liens — est dans la fiche « Détails ». */
   const acts = [];
-  if (p.url && p.url.ok) acts.push(`<a class="btn btn--p" href="${p.url.v}" target="_blank" rel="noopener noreferrer">${I.link}${esc(p.url.label || 'Site officiel')}</a>`);
-  if (p.book && p.book.ok) acts.push(`<a class="btn" href="${p.book.v}" target="_blank" rel="noopener noreferrer">${I.ticket}Réserver</a>`);
-  if (p.maps) acts.push(`<a class="btn" href="${p.maps}" target="_blank" rel="noopener noreferrer">${I.map}Google Maps</a>`);
+  acts.push(`<button class="btn btn--p" type="button" data-details="${k}">${I.info}Voir les détails</button>`);
+  if (p.maps) acts.push(`<a class="btn" href="${p.maps}" target="_blank" rel="noopener noreferrer">${I.map}Itinéraire</a>`);
   if (p.phone && p.phone.ok) acts.push(`<a class="btn" href="tel:${p.phone.v.split('·')[0].replace(/[^+0-9]/g,'')}">${I.phone}Appeler</a>`);
-  if (p.address && p.address.ok) acts.push(`<button class="btn" type="button" data-copy="${esc(p.address.v)}">${I.copy}Copier l’adresse</button>`);
 
   return `<div class="place">
     <div class="place__top">
-      ${p.img ? `<img class="place__img" src="${img(p.img,'card')}" alt="" loading="lazy" width="148" height="148">` : ''}
+      ${placeThumb(k, 'card', 'place__img')}
       <div class="place__i">
         <div class="place__c">${esc(CAT_LABEL[p.cat] || p.cat)} · ${esc(p.city)}</div>
         <div class="place__n">${esc(p.name)}</div>
         ${p.cuisine ? `<div class="place__cui">${I.repas}${esc(p.cuisine)}</div>` : ''}
         <p class="place__d">${esc(p.desc)}</p>
       </div>
-      <button class="place__fav" type="button" data-fav="${k}" aria-pressed="${on}"
-              aria-label="${on?'Retirer':'Ajouter'} ${esc(p.name)} des favoris">${I.heart}</button>
     </div>
-    <div class="place__rows">${rows.join('')}</div>
     ${p.warn ? `<div class="place__warn">${I.warn}<span>${esc(p.warn)}</span></div>` : ''}
-    ${acts.length ? `<div class="place__acts">${acts.join('')}</div>` : ''}
+    <div class="place__acts">${acts.join('')}</div>
   </div>`;
 }
 
