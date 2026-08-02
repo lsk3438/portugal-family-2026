@@ -9,6 +9,7 @@ import { setAccent } from './helpers.js';
 import { observe } from '../features/reveal.js';
 import { startCountdown, renderProgress } from '../features/countdown.js';
 import { renderHome } from '../views/home.js';
+import { stopHeroReel } from '../features/heroreel.js';
 import { renderProgramme, progFilter, setProgFilter } from '../views/programme.js';
 import { renderDay, stopDay } from '../views/day.js';
 import { renderMap } from '../views/map.js';
@@ -51,6 +52,7 @@ export function route(){
   const view = TABS.some(t => t.id === name) ? name : 'accueil';
 
   stopDay();
+  if (view !== 'accueil') stopHeroReel();
 
   if (view === 'accueil'){ setAccent(null); renderHome(); startCountdown(); renderProgress(); }
   if (view === 'programme'){ setAccent(progFilter === 'all' ? null : progFilter); renderProgramme(); }
