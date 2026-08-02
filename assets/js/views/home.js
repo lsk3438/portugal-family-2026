@@ -8,13 +8,13 @@ import { TRIP } from '../../../data/trip.js';
 import { img, legOfDay } from '../core/helpers.js';
 import { tripDayIndex } from '../features/countdown.js';
 import { wxFill } from '../features/weather.js';
+import { startHeroReel } from '../features/heroreel.js';
 
 /* ======================================================================
    ACCUEIL
    ====================================================================== */
 export function renderHome(){
-  $('#home-img').src = img(TRIP.days[0].hero, 'hero') || '';
-  $('#home-img').alt = 'Marina de Vilamoura, Algarve';
+  startHeroReel();
   $('#home-eyebrow').textContent = TRIP.dates + ' · ' + TRIP.stages;
   $('#home-sub').textContent = TRIP.intro;
 
